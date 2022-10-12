@@ -1,5 +1,8 @@
+#ifndef CHESSPIECE_H
+#define CHESSPIECE_H
+
 #include <iostream>
-#include <Point.h>
+#include </home/zach/ZACH/Point.h>
 #include <vector>
 
 using namespace std;
@@ -32,3 +35,5 @@ class ChessPiece
         virtual vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
         void GetPieceType(vector<ChessPiece> aPlayfield, Point aPoint);
 };
+
+#endif

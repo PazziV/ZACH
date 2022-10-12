@@ -1,13 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <Point.h>
-#include <ChessPiece.h>
-#include <Pawn.h>
-#include <Bishop.h>
-#include <Rook.h>
-#include <Knight.h>
-#include <Queen.h>
-#include <King.h>
+#include </home/zach/ZACH/ChessPiece.h>
+#include </home/zach/ZACH/ChessPieceTypes/Pawn.h>
+#include </home/zach/ZACH/ChessPieceTypes/Bishop.h>
+#include </home/zach/ZACH/ChessPieceTypes/Rook.h>
+#include </home/zach/ZACH/ChessPieceTypes/Knight.h>
+#include </home/zach/ZACH/ChessPieceTypes/Queen.h>
+#include </home/zach/ZACH/ChessPieceTypes/King.h>
 #include <array>
 // include Stepper Control
 
@@ -17,12 +16,13 @@ array<ChessPiece*, 64> playField;
 
 void resetBoard();
 
-void main()
+int main()
 {
     while(1)
     {
-
+        
     }
+    return 1;
 }
 
 void resetBoard()

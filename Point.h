@@ -1,4 +1,6 @@
 /*Point Class by Leon Plattner*/
+#ifndef POINT_H
+#define POINT_H
 
 #include <iostream>
 
@@ -28,3 +30,5 @@ public:
     int x = 0;
     int y = 0;
 };
+
+#endif
