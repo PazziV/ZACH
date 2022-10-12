@@ -1,4 +1,4 @@
-#include </home/zach/ZACH/Pawn.h>
+#include </home/zach/ZACH/ChessPieceTypes/Pawn.h>
 
 using namespace cp;
 

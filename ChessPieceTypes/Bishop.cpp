@@ -1,4 +1,4 @@
-#include </home/zach/ZACH/Bishop.h>
+#include </home/zach/ZACH/ChessPieceTypes/Bishop.h>
 
 using namespace cp;
 

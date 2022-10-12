@@ -1,4 +1,4 @@
-#include </home/zach/ZACH/Queen.h>
+#include </home/zach/ZACH/ChessPieceTypes/Queen.h>
 
 using namespace cp;
 

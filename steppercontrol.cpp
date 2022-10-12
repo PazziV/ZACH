@@ -5,8 +5,10 @@
 using namespace std;
 
 #define stepsPerRotation
-#define distancePerStep 0.2
-#define distancePerRotation 40
+#define distancePerStep 0.2 //mm
+#define distancePerRotation 40  //mm
+
+#define fieldSize 35 //mm
 
 #define M1_STEP 5     //Stepper 1 Step Pin
 #define M1_DIR 6     //Stepper 1 Direction Pin
@@ -22,6 +24,7 @@ enum Direction{
 
 void moveByMM(int a_mm, Direction a_dir);
 void moveTo(Point a_desPoint);
+void calibrate();
 
 int main()
 {
@@ -84,4 +87,9 @@ void moveByMM(int a_mm, Direction a_dir)
 void moveTo(Direction a_desPoint)
 {
     
+}
+
+void calibrate()
+{
+    // move to lower corner until limit switches are triggered then move to closest field
 }
