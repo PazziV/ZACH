@@ -17,8 +17,10 @@ using namespace std;
 
 #define LIMIT_X_LEFT 20  //left Limit Switch X-Axis (Letters)
 #define LIMIT_X_RIGHT 21  //right Limit Switch X-Axis (Letters)
-#define LIMIT_Y_UPPER 20  //upper Limit Switch Y-Axis (Numbers)
-#define LIMIT_Y_LOWER 21  //lower Limit Switch Y-Axis (Numbers)
+#define LIMIT_Y_UPPER 12  //upper Limit Switch Y-Axis (Numbers)
+#define LIMIT_Y_LOWER 16  //lower Limit Switch Y-Axis (Numbers)
+
+#define ENABLE 26   //HIGH => Input off; LOW => Input on
 
 #define X_DISTANCE_TO_A1 30 //Distance in mm from left X-Axis limit switch to field A1
 #define Y_DISTANCE_TO_A1 30 //Distance in mm from lower-left Y-Axis limit switch to field A1
@@ -30,10 +32,10 @@ enum Direction{
     Right
 };
 
-Point currPoint();
+//Point currPoint;
 
 void moveByMM(int a_mm, Direction a_dir);
-void moveTo(Point a_desPoint);
+//void moveTo(Point a_desPoint);
 void calibrate();
 
 int main()
@@ -47,9 +49,30 @@ int main()
     gpioSetMode(M2_STEP, PI_OUTPUT);
     gpioSetMode(M2_DIR, PI_OUTPUT);
 
-    calibrate();
+    //calibrate();
 
-    moveByMM(10, Direction::Forwards);
+    // while(1)
+    // {
+    //     if(getchar() == 'w')
+    //         moveByMM(1, Direction::Forwards);
+    //     else if(getchar() == 's')
+    //         moveByMM(1, Direction::Backwards);
+    //     else if(getchar() == 'a')
+    //         moveByMM(1, Direction::Left);
+    //     else if(getchar() == 'd')
+    //         moveByMM(1, Direction::Right);
+    // }
+    while(1)
+    {
+        moveByMM(20, Direction::Forwards);
+        time_sleep(1);
+        moveByMM(20, Direction::Backwards);
+        time_sleep(1);
+        moveByMM(20, Direction::Left);
+        time_sleep(1);
+        moveByMM(20, Direction::Right);
+        time_sleep(1);
+    }
 
     return 1;
 }
@@ -96,10 +119,10 @@ void moveByMM(int a_mm, Direction a_dir)
     }
 }
 
-void moveTo(Direction a_desPoint)
+/*void moveTo(Point a_desPoint)
 {
     
-}
+}*/
 
 void calibrate()
 {
@@ -132,7 +155,6 @@ void calibrate()
 
     moveByMM(X_DISTANCE_TO_A1, Direction::Right);
     moveByMM(Y_DISTANCE_TO_A1, Direction::Forwards);
-
-    Point point(0,7);
-    currPoint = point;
+    
+    //currPoint = Point(0,7);
 }
