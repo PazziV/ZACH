@@ -28,3 +28,5 @@ void ChessPiece::GetPieceType(vector<ChessPiece> aPlayfield, Point aPoint)
     m_type = aPlayfield[pos].m_type;
     m_col = aPlayfield[pos].m_col;
 }
+
+void ChessPiece::moveTo(Point aDesPoint)

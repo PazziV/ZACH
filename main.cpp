@@ -7,8 +7,8 @@
 #include </home/zach/ZACH/ChessPieceTypes/Knight.h>
 #include </home/zach/ZACH/ChessPieceTypes/Queen.h>
 #include </home/zach/ZACH/ChessPieceTypes/King.h>
+#include </home/zach/ZACH/Stepper.h>
 #include <array>
-// include Stepper Control
 
 using namespace std;
 
@@ -29,8 +29,6 @@ void resetBoard()
 {
     for(int a = 0; a < 64; a++) // delete every piece
         delete playField[a];
-
-
 
     playField[0] = new cp::Rook(Color::Black, Point(0,0)); playField[7] = new cp::Rook(Color::Black, Point(7,0));
     playField[1] = new cp::Knight(Color::Black, Point(1,0)); playField[6] = new cp::Knight(Color::Black, Point(6,0));

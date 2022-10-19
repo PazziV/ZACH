@@ -34,6 +34,7 @@ class ChessPiece
         ChessPiece(Color aCol, PieceType aType, Point aPos);
         virtual vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
         void GetPieceType(vector<ChessPiece> aPlayfield, Point aPoint);
+        void moveTo(Point aDesPoint);
 };
 
 #endif
