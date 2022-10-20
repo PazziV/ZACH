@@ -11,7 +11,7 @@ Pawn::Pawn(Color aCol, Point aPos)
     m_MoveSet = {Point(0,2), Point(0,1), Point(1,1), Point(-1,1)};
 }
 
-vector<Point> Pawn::getPossibleMoves(vector<ChessPiece> aPlayfield)
+vector<Point> Pawn::getPossibleMoves(array<ChessPiece*, 64> aPlayfield)
 {
     //only standard moves, no "en passant" (maybe at a later point)
     vector<Point> possibleMoves;
@@ -34,4 +34,22 @@ vector<Point> Pawn::getPossibleMoves(vector<ChessPiece> aPlayfield)
     }
 
     return possibleMoves;
+}
+
+void Pawn::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+{
+    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    bool isPossible = false;
+    for(int i = 0; i < possibleMoves.size(); i++)
+    {
+        if(aDesPoint == possibleMoves[i])
+            isPossible = true;
+    }
+
+    if(isPossible == true)
+    {
+
+    }
+    else
+        return;
 }

@@ -6,7 +6,7 @@ Rook::Rook(Color aCol, Point aPos)
 {
     m_col = aCol;
     m_pos = aPos;
-    m_type = PieceType::Pawn;
+    m_type = PieceType::Rook;
 
     m_MoveSet = {Point(0,1), Point(0,2), Point(0,3), Point(0,4), Point(0,5), Point(0,6), Point(0,7),
                  Point(0,-1), Point(0,-2), Point(0,-3), Point(0,-4), Point(0,-5), Point(0,-6), Point(0,-7),
@@ -36,4 +36,22 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
     }
 
     return possibleMoves;
+}
+
+void Rook::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+{
+    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    bool isPossible = false;
+    for(int i = 0; i < possibleMoves.size(); i++)
+    {
+        if(aDesPoint == possibleMoves[i])
+            isPossible = true;
+    }
+
+    if(isPossible == true)
+    {
+
+    }
+    else
+        return;
 }

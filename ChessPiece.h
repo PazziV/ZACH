@@ -4,6 +4,7 @@
 #include <iostream>
 #include </home/zach/ZACH/Point.h>
 #include <vector>
+#include <array>
 
 using namespace std;
 
@@ -32,9 +33,9 @@ class ChessPiece
 
         ChessPiece();
         ChessPiece(Color aCol, PieceType aType, Point aPos);
-        virtual vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
-        void GetPieceType(vector<ChessPiece> aPlayfield, Point aPoint);
-        void moveTo(Point aDesPoint);
+        virtual vector<Point> getPossibleMoves(array<ChessPiece*, 64> aPlayfield);
+        void GetPieceType(array<ChessPiece*, 64> aPlayfield, Point aPoint);
+        virtual void moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint);
 };
 
 #endif

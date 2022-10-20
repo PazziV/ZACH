@@ -10,6 +10,7 @@ namespace cp
         public:
             King(Color aCol, Point aPos);
             vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
+            void moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint);
     };
 }
 

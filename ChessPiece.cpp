@@ -12,21 +12,24 @@ ChessPiece::ChessPiece(Color aCol, PieceType aType, Point aPos)
     m_pos = aPos;
 }
 
-vector<Point> ChessPiece::getPossibleMoves(vector<ChessPiece> aPlayfield)
+vector<Point> ChessPiece::getPossibleMoves(array<ChessPiece*, 64> aPlayfield)
 {
-
+    vector<Point> tmp = {};
+    return tmp;
 }
 
-void ChessPiece::GetPieceType(vector<ChessPiece> aPlayfield, Point aPoint)
+void ChessPiece::GetPieceType(array<ChessPiece*, 64> aPlayfield, Point aPoint)
 {
     int pos = 0;
-    for(int i = 0; i < aPlayfield.size(); i++)
+    for(int i = 0; i < 64; i++)
     {
-        if(aPlayfield[i].m_pos == aPoint)
+        if(aPlayfield[i]->m_pos == aPoint)
             pos = i;
     }
-    m_type = aPlayfield[pos].m_type;
-    m_col = aPlayfield[pos].m_col;
+    m_type = aPlayfield[pos]->m_type;
+    m_col = aPlayfield[pos]->m_col;
 }
 
-void ChessPiece::moveTo(Point aDesPoint)
+void ChessPiece::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+{
+}

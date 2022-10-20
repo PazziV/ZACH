@@ -6,7 +6,7 @@ Knight::Knight(Color aCol, Point aPos)
 {
     m_col = aCol;
     m_pos = aPos;
-    m_type = PieceType::Pawn;
+    m_type = PieceType::Knight;
 
     m_MoveSet = {Point(1,2), Point(2,1), Point(-1,2), Point(-2,1), Point(-1,-2), Point(-2,-1), Point(1,-2), Point(2,-1)};
 }
@@ -33,4 +33,22 @@ vector<Point> Knight::getPossibleMoves(vector<ChessPiece> aPlayfield)
     }
 
     return possibleMoves;
+}
+
+void Knight::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+{
+    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    bool isPossible = false;
+    for(int i = 0; i < possibleMoves.size(); i++)
+    {
+        if(aDesPoint == possibleMoves[i])
+            isPossible = true;
+    }
+
+    if(isPossible == true)
+    {
+
+    }
+    else
+        return;
 }

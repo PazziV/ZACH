@@ -6,7 +6,7 @@ Bishop::Bishop(Color aCol, Point aPos)
 {
     m_col = aCol;
     m_pos = aPos;
-    m_type = PieceType::Pawn;
+    m_type = PieceType::Bishop;
 
     m_MoveSet = {Point(1,1), Point(2,2), Point(3,3), Point(4,4), Point(5,5), Point(6,6), Point(7,7),
                  Point(-1,-1), Point(-2,-2), Point(-3,-3), Point(-4,-4), Point(-5,-5), Point(-6,-6), Point(-7,-7)};
@@ -34,4 +34,22 @@ vector<Point> Bishop::getPossibleMoves(vector<ChessPiece> aPlayfield)
     }
 
     return possibleMoves;
+}
+
+void Bishop::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+{
+    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    bool isPossible = false;
+    for(int i = 0; i < possibleMoves.size(); i++)
+    {
+        if(aDesPoint == possibleMoves[i])
+            isPossible = true;
+    }
+
+    if(isPossible == true)
+    {
+
+    }
+    else
+        return;
 }
