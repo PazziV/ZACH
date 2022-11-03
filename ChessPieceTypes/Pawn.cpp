@@ -39,17 +39,18 @@ vector<Point> Pawn::getPossibleMoves(array<ChessPiece*, 64> aPlayfield)
 void Pawn::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
-    bool isPossible = false;
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
-            isPossible = true;
+        {
+            if(this.m_pos.x != aDesPoint.x)
+            {
+                
+            }
+            else
+            {
+                
+            }
+        }
     }
-
-    if(isPossible == true)
-    {
-
-    }
-    else
-        return;
 }

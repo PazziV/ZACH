@@ -41,17 +41,9 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
 void Rook::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
-    bool isPossible = false;
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
-            isPossible = true;
+            this.m_pos = aDesPoint;
     }
-
-    if(isPossible == true)
-    {
-
-    }
-    else
-        return;
 }
