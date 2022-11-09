@@ -30,6 +30,6 @@ void ChessPiece::GetPieceType(array<ChessPiece*, 64> aPlayfield, Point aPoint)
     m_col = aPlayfield[pos]->m_col;
 }
 
-void ChessPiece::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+void ChessPiece::moveTo(Point aDesPoint)
 {
 }

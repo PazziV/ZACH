@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include </home/zach/ZACH/Point.h>
+#include </home/zach/ZACH/Stepper.h>
 #include <vector>
 #include <array>
+#include <cmath>
 
 using namespace std;
 
@@ -35,7 +37,7 @@ class ChessPiece
         ChessPiece(Color aCol, PieceType aType, Point aPos);
         virtual vector<Point> getPossibleMoves(array<ChessPiece*, 64> aPlayfield);
         void GetPieceType(array<ChessPiece*, 64> aPlayfield, Point aPoint);
-        virtual void moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint);
+        virtual void moveTo(Point aDesPoint);
 };
 
 #endif

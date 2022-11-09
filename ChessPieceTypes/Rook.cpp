@@ -38,12 +38,37 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Rook::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+void Rook::moveTo(Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
-            this.m_pos = aDesPoint;
+        {
+            if(aDesPoint.x != this.m_pos.x)
+            {
+                int ydiff = aDesPoint.y - this.m_pos.y;
+                if(ydiff > 0)
+                {
+                    Stepper::moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
+                }
+                else if(ydiff < 0)
+                {
+                    Stepper::moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Forwards);
+                }
+            }    
+            else
+            {
+                int xdiff = aDesPoint.x - this.m_pos.x;
+                if(xdiff > 0)
+                {
+                    Stepper::moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
+                }
+                else if(xdiff < 0)
+                {
+                    Stepper::moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
+                }
+            }    
+        }
     }
 }

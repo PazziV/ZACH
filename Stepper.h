@@ -29,7 +29,11 @@ enum Direction{
     Backwards = 0,
     Forwards,
     Left,
-    Right
+    Right,
+    DiagonalRF, //Diagonal-Right-Forwards
+    DiagonalRB, //Diagonal-Right-Backwards
+    DiagonalLF, //Diagonal-Left-Forwards
+    DiagonalLB  //Diagonal-Left-Backwards
 };
 
 class Stepper
@@ -40,4 +44,5 @@ class Stepper
         Stepper();
         void moveByMM(int a_mm, Direction a_dir);
         void calibrate();
+        void moveToPoint(Point aDesPoint);
 };

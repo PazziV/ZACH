@@ -14,10 +14,15 @@ using namespace std;
 
 array<ChessPiece*, 64> playField;
 
+Stepper steppers();
+
 void resetBoard();
+void conPrintBoard();
 
 int main()
 {
+    resetBoard();
+    conPrintBoard();
     while(1)
     {
         
@@ -46,4 +51,46 @@ void resetBoard()
         playField[i] = new cp::Pawn(Color::White, Point((i-48),6));
 
     // WENN FIGUREN VOM FELD GENOMMEN WERDEN AUS ARRAY DELETEN!!!!!!!!!! ==> delete playField[x];
+}
+
+void conPrintBoard()    //print Board to Console
+{
+    for(int i = 0; i < 64; i++)
+        {
+            if(i % 8 == 0)
+                printf("\n");
+            switch playField[i]->m_type
+            {
+                case PieceType::Rook:
+                {
+                    printf("T ");
+                    break;
+                }
+                case PieceType::Knight:
+                {
+                    printf("P ");
+                    break;
+                }
+                case PieceType::Bishop:
+                {
+                    printf("L ");
+                    break;
+                }
+                case PieceType::Pawn:
+                {
+                    printf("B ");
+                    break;
+                }
+                case PieceType::Queen:
+                {
+                    printf("Q ");
+                    break;
+                }
+                case PieceType::King:
+                {
+                    printf("K ");
+                    break;
+                }
+            }
+        }
 }

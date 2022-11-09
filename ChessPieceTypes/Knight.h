@@ -10,7 +10,7 @@ namespace cp
         public:
             Knight(Color aCol, Point aPos);
             vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
-            void moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint);
+            void moveTo(Point aDesPoint);
     };
 }
 

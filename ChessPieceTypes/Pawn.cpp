@@ -36,21 +36,73 @@ vector<Point> Pawn::getPossibleMoves(array<ChessPiece*, 64> aPlayfield)
     return possibleMoves;
 }
 
-void Pawn::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+void Pawn::moveTo(Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
         {
-            if(this.m_pos.x != aDesPoint.x)
+            if(this.m_pos.x == aDesPoint.x)
             {
-                
+                int diff = aDesPoint.y - this.m_pos.y;
+                if(diff > 0)
+                {
+                    Stepper::moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Backwards);   //muss noch zu steppers.moveByMM, 
+                }                                                                               //irgendwie muss ich Stepper Objekt übergeben
+                else if(diff < 0)
+                {
+                    Stepper::moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Forwards);
+                }
             }
             else
             {
-                
+                /*
+                if(aDesPoint.x > this.m_pos.x)   // Move half field to side
+                    Stepper::moveByMM(0.5*ChessPiece::fieldSize, Direction::Right);
+                else if(aDesPoint.x < this.m_pos.x)
+                    Stepper::moveByMM(0.5*ChessPiece::fieldSize, Direction::Left);
+
+                if(this.m_col == Color::White)
+                {
+                    Stepper::moveByMM(ChessPiece::fieldSize, Direction::Forwards);
+                }
+                else if(this.m_col == Color::Black)
+                {
+                    Stepper::moveByMM(ChessPiece::fieldSize, Direction::Backwards);
+                }
+
+                if(aDesPoint.x > this.m_pos.x)   // Move to center
+                    Stepper::moveByMM(0.5*ChessPiece::fieldSize, Direction::Right);
+                else if(aDesPoint.x < this.m_pos.x)
+                    Stepper::moveByMM(0.5*ChessPiece::fieldSize, Direction::Left);
+                */
+
+               int diagonal = round((sqrt(2*(fieldSize*fieldSize))))
+               if(this.m_col == Color::White)
+               {
+                    if(aDesPoint.x > this.m_pos.x)
+                    {
+                        steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                    }
+                    else if(aDesPoint.x < this.m_pos.x)
+                    {
+                        steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                    }
+               }
+               else if(this.m_pos == Color::Black)
+               {
+                    if(aDesPoint.x > this.m_pos.x)
+                    {
+                        steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                    }
+                    else if(aDesPoint.x < this.m_pos.x)
+                    {
+                        steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                    }
+               }
             }
+            this.m_pos = aDesPoint;
         }
     }
 }

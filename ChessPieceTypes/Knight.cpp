@@ -35,7 +35,7 @@ vector<Point> Knight::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Knight::moveTo(array<ChessPiece*, 64> aPlayfield, Point aDesPoint)
+void Knight::moveTo(Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)

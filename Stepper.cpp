@@ -44,13 +44,58 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
+        case 4:     //Diagonal-Right-Forwards
+        {
+            gpioWrite(M1_DIR, PI_LOW);
+            gpioWrite(M2_DIR, PI_HIGH);
+            break;
+        }
+        case 5:     //Diagonal-Right-Backwards
+        {
+            gpioWrite(M1_DIR, PI_HIGH);
+            gpioWrite(M2_DIR, PI_LOW);
+            break;
+        }
+        case 6:     //Diagonal-Left-Forwards
+        {
+            gpioWrite(M1_DIR, PI_LOW);
+            gpioWrite(M2_DIR, PI_HIGH);
+            break;
+        }
+        case 7:     //Diagonal-Left-Forwards
+        {
+            gpioWrite(M1_DIR, PI_HIGH);
+            gpioWrite(M2_DIR, PI_LOW);
+            break;
+        }
     }
 
     int reqSteps = a_mm / distancePerStep;  // amount of steps required to travel desired distance
     gpioWrite(ENABLE, PI_LOW);
-    for(int i = 0; i < reqSteps; i++)
+    if(a_dir <= 3)
+    {
+        for(int i = 0; i < reqSteps; i++)
+        {
+            gpioWrite(M1_STEP, PI_HIGH);
+            gpioWrite(M2_STEP, PI_HIGH);
+            time_sleep(0.0009);
+            gpioWrite(M1_STEP, PI_LOW);
+            gpioWrite(M2_STEP, PI_LOW);
+            time_sleep(0.0009);
+        }
+    }
+    else if(a_dir <= 5)
     {
         gpioWrite(M1_STEP, PI_HIGH);
+        gpioWrite(M2_STEP, PI_LOW);
+        time_sleep(0.0009);
+        gpioWrite(M1_STEP, PI_LOW);
+        gpioWrite(M2_STEP, PI_LOW);
+        time_sleep(0.0009);
+    }
+    else
+    {
+        gpioWrite(M1_STEP, PI_LOW);
         gpioWrite(M2_STEP, PI_HIGH);
         time_sleep(0.0009);
         gpioWrite(M1_STEP, PI_LOW);
@@ -93,4 +138,20 @@ void Stepper::calibrate()
     moveByMM(Y_DISTANCE_TO_A1, Direction::Forwards);
     
     currPoint = Point(0,7);
+}
+
+void moveToPoint(Point aDesPoint)
+{
+    int xdiff = aDesPoint.x - currPoint.x;
+    int ydiff = aDesPoint.y - currPoint.y;
+
+    if(xdiff < 0)
+        moveByMM(abs(xdiff)*fieldSize, Direction::Left);
+    else if(xdiff > 0)
+        moveByMM(abs(xdiff)*fieldSize, Direction::Right);
+
+    if(ydiff < 0)
+        moveByMM(abs(ydiff)*fieldSize, Direction::Backwards);
+    else if(ydiff > 0)
+        moveByMM(abs(ydiff)*fieldSize, Direction::Forwards);
 }
