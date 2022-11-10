@@ -8,7 +8,7 @@ using namespace std;
 #define distancePerStep 0.2 //mm
 #define distancePerRotation 40  //mm
 
-#define fieldSize 35 //mm
+#define fieldSize 45 //mm
 
 #define M1_STEP 5     //Stepper 1 Step Pin
 #define M1_DIR 6     //Stepper 1 Direction Pin
@@ -22,8 +22,8 @@ using namespace std;
 
 #define ENABLE 26   //HIGH => Input off; LOW => Input on
 
-#define X_DISTANCE_TO_A1 30 //Distance in mm from left X-Axis limit switch to field A1
-#define Y_DISTANCE_TO_A1 30 //Distance in mm from lower-left Y-Axis limit switch to field A1
+#define X_DISTANCE_TO_A1 43 //Distance in mm from left X-Axis limit switch to field A1
+#define Y_DISTANCE_TO_A1 10 //Distance in mm from lower-left Y-Axis limit switch to field A1
 
 enum Direction{
     Backwards = 0,

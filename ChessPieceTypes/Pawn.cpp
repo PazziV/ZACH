@@ -36,7 +36,7 @@ vector<Point> Pawn::getPossibleMoves(array<ChessPiece*, 64> aPlayfield)
     return possibleMoves;
 }
 
-void Pawn::moveTo(Point aDesPoint)
+void Pawn::moveTo(Stepper steppers, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)
@@ -48,11 +48,11 @@ void Pawn::moveTo(Point aDesPoint)
                 int diff = aDesPoint.y - this.m_pos.y;
                 if(diff > 0)
                 {
-                    Stepper::moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Backwards);   //muss noch zu steppers.moveByMM, 
+                    steppers.moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Backwards);   //muss noch zu steppers.moveByMM, 
                 }                                                                               //irgendwie muss ich Stepper Objekt übergeben
                 else if(diff < 0)
                 {
-                    Stepper::moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Forwards);
+                    steppers.moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Forwards);
                 }
             }
             else

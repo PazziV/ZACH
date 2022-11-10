@@ -10,7 +10,7 @@ namespace cp
         public:
             Pawn(Color aCol, Point aPos);
             vector<Point> getPossibleMoves(array<ChessPiece*, 64> aPlayfield);
-            void moveTo(Point aDesPoint);
+            void moveTo(PStepper steppers, oint aDesPoint);
     };
 }
 

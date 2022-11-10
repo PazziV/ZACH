@@ -36,7 +36,7 @@ vector<Point> Bishop::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Bishop::moveTo(Point aDesPoint)
+void Bishop::moveTo(Stepper steppers, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)

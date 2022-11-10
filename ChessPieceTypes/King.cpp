@@ -35,7 +35,7 @@ vector<Point> King::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void King::moveTo(Point aDesPoint)
+void King::moveTo(Stepper steppers, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)

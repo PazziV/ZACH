@@ -38,7 +38,7 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Rook::moveTo(Point aDesPoint)
+void Rook::moveTo(Stepper steppers, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)
@@ -50,11 +50,11 @@ void Rook::moveTo(Point aDesPoint)
                 int ydiff = aDesPoint.y - this.m_pos.y;
                 if(ydiff > 0)
                 {
-                    Stepper::moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
+                    steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
                 }
                 else if(ydiff < 0)
                 {
-                    Stepper::moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Forwards);
+                    steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Forwards);
                 }
             }    
             else
@@ -62,13 +62,14 @@ void Rook::moveTo(Point aDesPoint)
                 int xdiff = aDesPoint.x - this.m_pos.x;
                 if(xdiff > 0)
                 {
-                    Stepper::moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
+                    steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
                 }
                 else if(xdiff < 0)
                 {
-                    Stepper::moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
+                    steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
                 }
-            }    
+            }   
+            this.m_pos = aDesPos; 
         }
     }
 }

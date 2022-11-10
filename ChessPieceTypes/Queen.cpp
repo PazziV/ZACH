@@ -40,7 +40,7 @@ vector<Point> Queen::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Queen::moveTo(Point aDesPoint)
+void Queen::moveTo(Stepper steppers, Point aDesPoint)
 {
     vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
     for(int i = 0; i < possibleMoves.size(); i++)
