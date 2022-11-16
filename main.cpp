@@ -16,6 +16,9 @@ array<ChessPiece*, 64> playField;
 
 Stepper steppers();
 
+ChessPiece::steppers = &steppers;
+ChessPiece::playField = &playField;
+
 void resetBoard();
 void conPrintBoard();
 
@@ -59,7 +62,7 @@ void conPrintBoard()    //print Board to Console
         {
             if(i % 8 == 0)
                 printf("\n");
-            switch playField[i]->m_type
+            switch(playField[i]->m_type)
             {
                 case PieceType::Rook:
                 {

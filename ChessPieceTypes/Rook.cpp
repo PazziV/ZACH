@@ -14,7 +14,7 @@ Rook::Rook(Color aCol, Point aPos)
                  Point(-1,0), Point(-2,0), Point(-3,0), Point(-4,0), Point(-5,0), Point(-6,0), Point(-7,0)};
 }
 
-vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
+vector<Point> Rook::getPossibleMoves()
 {
     vector<Point> possibleMoves;
     Point desPoint; // Destination Point
@@ -25,7 +25,7 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
         if(desPoint.x <= 7 && desPoint.x >= 0 && desPoint.y <= 7 && desPoint.y >= 0)
         {
             ChessPiece occupant;
-            occupant.GetPieceType(aPlayfield, desPoint);
+            occupant.GetPieceType(desPoint);
 
             if(occupant.m_col != this->m_col)
             {
@@ -38,16 +38,16 @@ vector<Point> Rook::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Rook::moveTo(Stepper steppers, Point aDesPoint)
+void Rook::moveTo(Point aDesPoint)
 {
-    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    vector<Point> possibleMoves = getPossibleMoves();
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
         {
-            if(aDesPoint.x == this.m_pos.x)
+            if(aDesPoint.x == this->m_pos.x)
             {
-                int ydiff = aDesPoint.y - this.m_pos.y;
+                int ydiff = aDesPoint.y - this->m_pos.y;
                 if(ydiff > 0)
                 {
                     steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
@@ -59,7 +59,7 @@ void Rook::moveTo(Stepper steppers, Point aDesPoint)
             }    
             else
             {
-                int xdiff = aDesPoint.x - this.m_pos.x;
+                int xdiff = aDesPoint.x - this->m_pos.x;
                 if(xdiff > 0)
                 {
                     steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
@@ -69,7 +69,7 @@ void Rook::moveTo(Stepper steppers, Point aDesPoint)
                     steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
                 }
             }   
-            this.m_pos = aDesPos; 
+            this->m_pos = aDesPoint; 
         }
     }
 }

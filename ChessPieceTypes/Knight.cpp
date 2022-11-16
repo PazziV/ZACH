@@ -11,7 +11,7 @@ Knight::Knight(Color aCol, Point aPos)
     m_MoveSet = {Point(1,2), Point(2,1), Point(-1,2), Point(-2,1), Point(-1,-2), Point(-2,-1), Point(1,-2), Point(2,-1)};
 }
 
-vector<Point> Knight::getPossibleMoves(vector<ChessPiece> aPlayfield)
+vector<Point> Knight::getPossibleMoves()
 {
     vector<Point> possibleMoves;
     Point desPoint; // Destination Point
@@ -22,7 +22,7 @@ vector<Point> Knight::getPossibleMoves(vector<ChessPiece> aPlayfield)
         if(desPoint.x <= 7 && desPoint.x >= 0 && desPoint.y <= 7 && desPoint.y >= 0)
         {
             ChessPiece occupant;
-            occupant.GetPieceType(aPlayfield, desPoint);
+            occupant.GetPieceType(desPoint);
 
             if(occupant.m_col != this->m_col)
             {
@@ -35,15 +35,15 @@ vector<Point> Knight::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Knight::moveTo(Stepper steppers, Point aDesPoint)
+void Knight::moveTo(Point aDesPoint)
 {
-    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    vector<Point> possibleMoves = getPossibleMoves();
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
         {
-            int ydiff = aDesPoint.y - this.m_pos.y;
-            int xdiff = aDesPoint.x - this.m_pos.x;
+            int ydiff = aDesPoint.y - this->m_pos.y;
+            int xdiff = aDesPoint.x - this->m_pos.x;
             int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
 
             // ****** Move diagonal to first corner ******
@@ -100,7 +100,7 @@ void Knight::moveTo(Stepper steppers, Point aDesPoint)
                 steppers.moveByMM(diagonal/2, Direction::DiagonalLF);
             }
 
-            this.m_pos = aDesPoint;
+            this->m_pos = aDesPoint;
         } 
     }
 }

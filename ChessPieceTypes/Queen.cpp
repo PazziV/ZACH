@@ -16,7 +16,7 @@ Queen::Queen(Color aCol, Point aPos)
                  Point(-1,0), Point(-2,0), Point(-3,0), Point(-4,0), Point(-5,0), Point(-6,0), Point(-7,0)};
 }
 
-vector<Point> Queen::getPossibleMoves(vector<ChessPiece> aPlayfield)
+vector<Point> Queen::getPossibleMoves()
 {
     vector<Point> possibleMoves;
     Point desPoint; // Destination Point
@@ -27,7 +27,7 @@ vector<Point> Queen::getPossibleMoves(vector<ChessPiece> aPlayfield)
         if(desPoint.x <= 7 && desPoint.x >= 0 && desPoint.y <= 7 && desPoint.y >= 0)
         {
             ChessPiece occupant;
-            occupant.GetPieceType(aPlayfield, desPoint);
+            occupant.GetPieceType(desPoint);
 
             if(occupant.m_col != this->m_col)
             {
@@ -40,18 +40,18 @@ vector<Point> Queen::getPossibleMoves(vector<ChessPiece> aPlayfield)
     return possibleMoves;
 }
 
-void Queen::moveTo(Stepper steppers, Point aDesPoint)
+void Queen::moveTo(Point aDesPoint)
 {
-    vector<Point> possibleMoves = getPossibleMoves(aPlayfield);
+    vector<Point> possibleMoves = getPossibleMoves();
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
         {
-            if((aDesPoint.x != this.m_pos.x && aDesPoint.y == this.m_pos.y) || (aDesPoint.x == this.m_pos.x && aDesPoint.y != this.m_pos.y)) // move straight
+            if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
-                if(aDesPoint.x == this.m_pos.x)
+                if(aDesPoint.x == this->m_pos.x)
                 {
-                    int ydiff = aDesPoint.y - this.m_pos.y;
+                    int ydiff = aDesPoint.y - this->m_pos.y;
                     if(ydiff > 0)
                     {
                         steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
@@ -63,7 +63,7 @@ void Queen::moveTo(Stepper steppers, Point aDesPoint)
                 }    
                 else    
                 {
-                    int xdiff = aDesPoint.x - this.m_pos.x;
+                    int xdiff = aDesPoint.x - this->m_pos.x;
                     if(xdiff > 0)
                     {
                         steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
@@ -76,25 +76,25 @@ void Queen::moveTo(Stepper steppers, Point aDesPoint)
             }
             else // move diagonal
             {
-                int diff = aDesPoint.x - this.m_pos.x;
+                int diff = aDesPoint.x - this->m_pos.x;
                 int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
 
-                if(aDesPoint.x > this.m_pos.x)
+                if(aDesPoint.x > this->m_pos.x)
                 {
-                    if(aDesPoint.y > this.pos.y)
+                    if(aDesPoint.y > this->m_pos.y)
                         steppers.moveByMM(diagonal, Direction::DiagonalRB);
                     else
                         steppers.moveByMM(diagonal, Direction::DiagonalRF);
                 }
                 else
                 {
-                    if(aDesPoint.y > this.pos.y)
+                    if(aDesPoint.y > this->m_pos.y)
                         steppers.moveByMM(diagonal, Direction::DiagonalLB);
                     else
                         steppers.moveByMM(diagonal, Direction::DiagonalLF);
                 }
             }
-            this.m_pos = aDesPoint;
+            this->m_pos = aDesPoint;
         }
     }
 }

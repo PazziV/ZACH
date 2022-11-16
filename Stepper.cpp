@@ -140,7 +140,7 @@ void Stepper::calibrate()
     currPoint = Point(0,7);
 }
 
-void moveToPoint(Point aDesPoint)
+void Stepper::moveToPoint(Point aDesPoint)
 {
     int xdiff = aDesPoint.x - currPoint.x;
     int ydiff = aDesPoint.y - currPoint.y;

@@ -9,8 +9,8 @@ namespace cp
     {
         public:
             Queen(Color aCol, Point aPos);
-            vector<Point> getPossibleMoves(vector<ChessPiece> aPlayfield);
-            void moveTo(Stepper steppers, Point aDesPoint);
+            vector<Point> getPossibleMoves();
+            void moveTo(Point aDesPoint);
     };
 }
 
