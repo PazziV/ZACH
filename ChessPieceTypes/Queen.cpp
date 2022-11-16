@@ -46,6 +46,55 @@ void Queen::moveTo(Stepper steppers, Point aDesPoint)
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
+        {
+            if((aDesPoint.x != this.m_pos.x && aDesPoint.y == this.m_pos.y) || (aDesPoint.x == this.m_pos.x && aDesPoint.y != this.m_pos.y)) // move straight
+            {
+                if(aDesPoint.x == this.m_pos.x)
+                {
+                    int ydiff = aDesPoint.y - this.m_pos.y;
+                    if(ydiff > 0)
+                    {
+                        steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
+                    }
+                    else if(ydiff < 0)
+                    {
+                        steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Forwards);
+                    }
+                }    
+                else    
+                {
+                    int xdiff = aDesPoint.x - this.m_pos.x;
+                    if(xdiff > 0)
+                    {
+                        steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
+                    }
+                    else if(xdiff < 0)
+                    {
+                        steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
+                    }
+                }   
+            }
+            else // move diagonal
+            {
+                int diff = aDesPoint.x - this.m_pos.x;
+                int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
+
+                if(aDesPoint.x > this.m_pos.x)
+                {
+                    if(aDesPoint.y > this.pos.y)
+                        steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                    else
+                        steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                }
+                else
+                {
+                    if(aDesPoint.y > this.pos.y)
+                        steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                    else
+                        steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                }
+            }
             this.m_pos = aDesPoint;
+        }
     }
 }

@@ -41,6 +41,52 @@ void King::moveTo(Stepper steppers, Point aDesPoint)
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
+        {
+            if((aDesPoint.x != this.m_pos.x && aDesPoint.y == this.m_pos.y) || (aDesPoint.x == this.m_pos.x && aDesPoint.y != this.m_pos.y)) // move straight
+            {
+                if(aDesPoint.x == this.m_pos.x)
+                {
+                    if(aDesPoint.y > this.m_pos.y)
+                    {
+                        steppers.moveByMM(ChessPiece::fieldSize, Direction::Backwards);
+                    }
+                    else if(aDesPoint.y < this.m_pos.y)
+                    {
+                        steppers.moveByMM(absChessPiece::fieldSize, Direction::Forwards);
+                    }
+                }    
+                else    
+                {
+                    if(aDesPos.x > this.m_pos.x)
+                    {
+                        steppers.moveByMM(ChessPiece::fieldSize, Direction::Right);
+                    }
+                    else if(aDesPos < this.m_pos.x)
+                    {
+                        steppers.moveByMM(absChessPiece::fieldSize, Direction::Left);
+                    }
+                }   
+            }
+            else // move diagonal
+            {
+                int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
+
+                if(aDesPoint.x > this.m_pos.x)
+                {
+                    if(aDesPoint.y > this.pos.y)
+                        steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                    else
+                        steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                }
+                else
+                {
+                    if(aDesPoint.y > this.pos.y)
+                        steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                    else
+                        steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                }
+            }
             this.m_pos = aDesPoint;
+        }
     }
 }

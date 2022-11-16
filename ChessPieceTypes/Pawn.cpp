@@ -78,7 +78,7 @@ void Pawn::moveTo(Stepper steppers, Point aDesPoint)
                     Stepper::moveByMM(0.5*ChessPiece::fieldSize, Direction::Left);
                 */
 
-               int diagonal = round((sqrt(2*(fieldSize*fieldSize))))
+               int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
                if(this.m_col == Color::White)
                {
                     if(aDesPoint.x > this.m_pos.x)

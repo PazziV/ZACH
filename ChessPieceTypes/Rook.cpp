@@ -45,7 +45,7 @@ void Rook::moveTo(Stepper steppers, Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
-            if(aDesPoint.x != this.m_pos.x)
+            if(aDesPoint.x == this.m_pos.x)
             {
                 int ydiff = aDesPoint.y - this.m_pos.y;
                 if(ydiff > 0)

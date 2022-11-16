@@ -41,6 +41,66 @@ void Knight::moveTo(Stepper steppers, Point aDesPoint)
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
+        {
+            int ydiff = aDesPoint.y - this.m_pos.y;
+            int xdiff = aDesPoint.x - this.m_pos.x;
+            int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
+
+            // ****** Move diagonal to first corner ******
+            if(xdiff > 0 && ydiff < 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalRF);
+            }
+            else if(xdiff > 0 && ydiff > 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalRB);
+            }
+            else if(xdiff < 0 && ydiff > 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalLB);
+            }
+            else if(xdiff < 0 && ydiff < 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalLF);
+            }
+
+            // ****** Move straight to next corner ******
+            if(abs(xdiff) > abs(ydiff) && xdiff > 0)
+            {
+                steppers.moveByMM(fieldSize, Direction::Right);
+            }
+            else if(abs(xdiff) > abs(ydiff) && xdiff < 0)
+            {
+                steppers.moveByMM(fieldSize, Direction::Left);
+            }
+            else if(abs(xdiff) < abs(ydiff) && ydiff < 0)
+            {
+                steppers.moveByMM(fieldSize, Direction::Forwards);
+            }
+            else if(abs(xdiff) < abs(ydiff) && ydiff < 0)
+            {
+                steppers.moveByMM(fieldSize, Direction::Backwards);
+            }
+
+            // ****** Move diagonal to center of field ******
+            if(xdiff > 0 && ydiff < 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalRF);
+            }
+            else if(xdiff > 0 && ydiff > 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalRB);
+            }
+            else if(xdiff < 0 && ydiff > 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalLB);
+            }
+            else if(xdiff < 0 && ydiff < 0)
+            {
+                steppers.moveByMM(diagonal/2, Direction::DiagonalLF);
+            }
+
             this.m_pos = aDesPoint;
+        } 
     }
 }

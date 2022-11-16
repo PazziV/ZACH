@@ -42,6 +42,26 @@ void Bishop::moveTo(Stepper steppers, Point aDesPoint)
     for(int i = 0; i < possibleMoves.size(); i++)
     {
         if(aDesPoint == possibleMoves[i])
+        {
+            int diff = aDesPoint.x - this.m_pos.x;
+            int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
+
+            if(aDesPoint.x > this.m_pos.x)
+            {
+                if(aDesPoint.y > this.pos.y)
+                    steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                else
+                    steppers.moveByMM(diagonal, Direction::DiagonalRF);
+            }
+            else
+            {
+                if(aDesPoint.y > this.pos.y)
+                    steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                else
+                    steppers.moveByMM(diagonal, Direction::DiagonalLF);
+            }
+
             this.m_pos = aDesPoint;
+        }
     }
 }
