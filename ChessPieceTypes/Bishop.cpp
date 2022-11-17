@@ -49,16 +49,16 @@ void Bishop::moveTo(Point aDesPoint)
             if(aDesPoint.x > this->m_pos.x)
             {
                 if(aDesPoint.y > this->m_pos.y)
-                    steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                    steppers->moveByMM(diagonal, Direction::DiagonalRB);
                 else
-                    steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                    steppers->moveByMM(diagonal, Direction::DiagonalRF);
             }
             else
             {
                 if(aDesPoint.y > this->m_pos.y)
-                    steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                    steppers->moveByMM(diagonal, Direction::DiagonalLB);
                 else
-                    steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                    steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
 
             this->m_pos = aDesPoint;

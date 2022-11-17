@@ -48,22 +48,22 @@ void King::moveTo(Point aDesPoint)
                 {
                     if(aDesPoint.y > this->m_pos.y)
                     {
-                        steppers.moveByMM(fieldSize, Direction::Backwards);
+                        steppers->moveByMM(fieldSize, Direction::Backwards);
                     }
                     else if(aDesPoint.y < this->m_pos.y)
                     {
-                        steppers.moveByMM(fieldSize, Direction::Forwards);
+                        steppers->moveByMM(fieldSize, Direction::Forwards);
                     }
                 }    
                 else    
                 {
                     if(aDesPoint.x > this->m_pos.x)
                     {
-                        steppers.moveByMM(fieldSize, Direction::Right);
+                        steppers->moveByMM(fieldSize, Direction::Right);
                     }
-                    else if(aDesPoint < this->m_pos.x)
+                    else if(aDesPoint.x < this->m_pos.x)
                     {
-                        steppers.moveByMM(fieldSize, Direction::Left);
+                        steppers->moveByMM(fieldSize, Direction::Left);
                     }
                 }   
             }
@@ -74,16 +74,16 @@ void King::moveTo(Point aDesPoint)
                 if(aDesPoint.x > this->m_pos.x)
                 {
                     if(aDesPoint.y > this->m_pos.y)
-                        steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                        steppers->moveByMM(diagonal, Direction::DiagonalRB);
                     else
-                        steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                        steppers->moveByMM(diagonal, Direction::DiagonalRF);
                 }
                 else
                 {
                     if(aDesPoint.y > this->m_pos.y)
-                        steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                        steppers->moveByMM(diagonal, Direction::DiagonalLB);
                     else
-                        steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                        steppers->moveByMM(diagonal, Direction::DiagonalLF);
                 }
             }
             this->m_pos = aDesPoint;

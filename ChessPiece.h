@@ -34,13 +34,14 @@ class ChessPiece
         vector<Point> m_MoveSet;
 
         static Stepper* steppers;
-        static array<ChessPiece*, 64>* playField; // not sure if that makes sense
+        static array<ChessPiece*, 64>* playField;
 
         ChessPiece();
         ChessPiece(Color aCol, PieceType aType, Point aPos);
         virtual vector<Point> getPossibleMoves();
         void GetPieceType(Point aPoint);
         virtual void moveTo(Point aDesPoint);
+        void conPrintBoard();
 };
 
 #endif

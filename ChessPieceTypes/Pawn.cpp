@@ -48,11 +48,11 @@ void Pawn::moveTo(Point aDesPoint)
                 int diff = aDesPoint.y - this->m_pos.y;
                 if(diff > 0)
                 {
-                    steppers.moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Backwards);  
+                    steppers->moveByMM(abs(diff)*fieldSize, Direction::Backwards);  
                 }                                                                              
                 else if(diff < 0)
                 {
-                    steppers.moveByMM(abs(diff)*ChessPiece::fieldSize, Direction::Forwards);
+                    steppers->moveByMM(abs(diff)*fieldSize, Direction::Forwards);
                 }
             }
             else
@@ -83,22 +83,22 @@ void Pawn::moveTo(Point aDesPoint)
                {
                     if(aDesPoint.x > this->m_pos.x)
                     {
-                        steppers.moveByMM(diagonal, Direction::DiagonalRF);
+                        steppers->moveByMM(diagonal, Direction::DiagonalRF);
                     }
                     else if(aDesPoint.x < this->m_pos.x)
                     {
-                        steppers.moveByMM(diagonal, Direction::DiagonalLF);
+                        steppers->moveByMM(diagonal, Direction::DiagonalLF);
                     }
                }
-               else if(this->m_pos == Color::Black)
+               else if(this->m_col == Color::Black)
                {
                     if(aDesPoint.x > this->m_pos.x)
                     {
-                        steppers.moveByMM(diagonal, Direction::DiagonalRB);
+                        steppers->moveByMM(diagonal, Direction::DiagonalRB);
                     }
                     else if(aDesPoint.x < this->m_pos.x)
                     {
-                        steppers.moveByMM(diagonal, Direction::DiagonalLB);
+                        steppers->moveByMM(diagonal, Direction::DiagonalLB);
                     }
                }
             }

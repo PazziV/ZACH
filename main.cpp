@@ -14,18 +14,21 @@ using namespace std;
 
 array<ChessPiece*, 64> playField;
 
-Stepper steppers();
+Stepper steppers;
+ChessPiece tempPiece;
 
-ChessPiece::steppers = &steppers;
-ChessPiece::playField = &playField;
 
 void resetBoard();
 void conPrintBoard();
 
 int main()
 {
+    tempPiece.steppers = &steppers;
+    tempPiece.playField = &playField;
+
     resetBoard();
-    conPrintBoard();
+    //conPrintBoard();
+    playField[34]->conPrintBoard();
     while(1)
     {
         
@@ -56,7 +59,7 @@ void resetBoard()
     // WENN FIGUREN VOM FELD GENOMMEN WERDEN AUS ARRAY DELETEN!!!!!!!!!! ==> delete playField[x];
 }
 
-void conPrintBoard()    //print Board to Console
+/*void conPrintBoard()    //print Board to Console
 {
     for(int i = 0; i < 64; i++)
         {
@@ -96,4 +99,4 @@ void conPrintBoard()    //print Board to Console
                 }
             }
         }
-}
+}*/

@@ -50,11 +50,11 @@ void Rook::moveTo(Point aDesPoint)
                 int ydiff = aDesPoint.y - this->m_pos.y;
                 if(ydiff > 0)
                 {
-                    steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Backwards);
+                    steppers->moveByMM(abs(ydiff)*fieldSize, Direction::Backwards);
                 }
                 else if(ydiff < 0)
                 {
-                    steppers.moveByMM(abs(ydiff)*ChessPiece::fieldSize, Direction::Forwards);
+                    steppers->moveByMM(abs(ydiff)*fieldSize, Direction::Forwards);
                 }
             }    
             else
@@ -62,11 +62,11 @@ void Rook::moveTo(Point aDesPoint)
                 int xdiff = aDesPoint.x - this->m_pos.x;
                 if(xdiff > 0)
                 {
-                    steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Right);
+                    steppers->moveByMM(abs(xdiff)*fieldSize, Direction::Right);
                 }
                 else if(xdiff < 0)
                 {
-                    steppers.moveByMM(abs(xdiff)*ChessPiece::fieldSize, Direction::Left);
+                    steppers->moveByMM(abs(xdiff)*fieldSize, Direction::Left);
                 }
             }   
             this->m_pos = aDesPoint; 

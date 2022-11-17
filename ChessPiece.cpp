@@ -26,13 +26,55 @@ void ChessPiece::GetPieceType(Point aPoint)
     int pos = 0;
     for(int i = 0; i < 64; i++)
     {
-        if(playfield[i]->m_pos == aPoint)
+        if(playField[i].m_pos == aPoint)
             pos = i;
     }
-    m_type = playfield[pos]->m_type;
-    m_col = playfield[pos]->m_col;
+    m_type = playField[pos].m_type;
+    m_col = playField[pos].m_col;
 }
 
 void ChessPiece::moveTo(Point aDesPoint)
 {
+}
+
+void ChessPiece::conPrintBoard()    //print Board to Console
+{
+    for(int i = 0; i < 64; i++)
+        {
+            if(i % 8 == 0)
+                printf("\n");
+            switch(playField[i]->m_type)
+            {
+                case PieceType::Rook:
+                {
+                    printf("T ");
+                    break;
+                }
+                case PieceType::Knight:
+                {
+                    printf("P ");
+                    break;
+                }
+                case PieceType::Bishop:
+                {
+                    printf("L ");
+                    break;
+                }
+                case PieceType::Pawn:
+                {
+                    printf("B ");
+                    break;
+                }
+                case PieceType::Queen:
+                {
+                    printf("Q ");
+                    break;
+                }
+                case PieceType::King:
+                {
+                    printf("K ");
+                    break;
+                }
+            }
+        }
 }
