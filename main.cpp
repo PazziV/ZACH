@@ -59,7 +59,7 @@ void resetBoard()
     // WENN FIGUREN VOM FELD GENOMMEN WERDEN AUS ARRAY DELETEN!!!!!!!!!! ==> delete playField[x];
 }
 
-/*void conPrintBoard()    //print Board to Console
+void conPrintBoard()    //print Board to Console
 {
     for(int i = 0; i < 64; i++)
         {
@@ -99,4 +99,4 @@ void resetBoard()
                 }
             }
         }
-}*/
+}
