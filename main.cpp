@@ -29,6 +29,7 @@ int main()
     resetBoard();
     //conPrintBoard();
     playField[34]->conPrintBoard();
+
     while(1)
     {
         
@@ -41,6 +42,7 @@ void resetBoard()
     for(int a = 0; a < 64; a++) // delete every piece
         delete playField[a];
 
+    // set pieces to starting positions
     playField[0] = new cp::Rook(Color::Black, Point(0,0)); playField[7] = new cp::Rook(Color::Black, Point(7,0));
     playField[1] = new cp::Knight(Color::Black, Point(1,0)); playField[6] = new cp::Knight(Color::Black, Point(6,0));
     playField[2] = new cp::Bishop(Color::Black, Point(2,0)); playField[5] = new cp::Bishop(Color::Black, Point(5,0));
