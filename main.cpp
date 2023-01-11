@@ -29,13 +29,32 @@ int main()
     tempPiece.playField = &playField;
 
     resetBoard();
+
+    //steppers.calibrate();
+    steppers.currPoint = Point(0,7);
+
     conPrintBoard();
     printf("conPrintBoard done\n");
 
     while(1)
     {
-        
+        // Test code
+        int x1, y1, x2, y2;
+        cout << "Select Piece: ";
+        cin >> x1 >> y1;
+        cout << "Move to: ";
+        cin >> x2 >> y2;
+
+        int a1 = y1*(x1+1);
+        playField[a1]->moveTo(Point(x2,y2));
+        int a2 = y2*(x2+1);
+        playField[a2]->m_type = playField[a1]->m_type;
+        playField[a1]->m_type = PieceType::none;
+
+        conPrintBoard();
+        printf("conPrintBoard done\n");
     }
+
     return 1;
 }
 
@@ -58,10 +77,10 @@ void resetBoard()
         playField[i] = new ChessPiece();
     }
 
-    playField[56] = new cp::Rook(Color::White, Point(0,7)); playField[60] = new cp::Rook(Color::White, Point(7,7));
-    playField[57] = new cp::Knight(Color::White, Point(1,7)); playField[61] = new cp::Knight(Color::White, Point(6,7));
-    playField[58] = new cp::Bishop(Color::White, Point(2,7)); playField[62] = new cp::Bishop(Color::White, Point(5,7));
-    playField[59] = new cp::Queen(Color::White, Point(3,7)); playField[63] = new cp::King(Color::White, Point(4,7));
+    playField[56] = new cp::Rook(Color::White, Point(0,7)); playField[63] = new cp::Rook(Color::White, Point(7,7));
+    playField[57] = new cp::Knight(Color::White, Point(1,7)); playField[62] = new cp::Knight(Color::White, Point(6,7));
+    playField[58] = new cp::Bishop(Color::White, Point(2,7)); playField[61] = new cp::Bishop(Color::White, Point(5,7));
+    playField[59] = new cp::Queen(Color::White, Point(3,7)); playField[60] = new cp::King(Color::White, Point(4,7));
     for(int i = 48; i <= 55; i++)
         playField[i] = new cp::Pawn(Color::White, Point((i-48),6));
 

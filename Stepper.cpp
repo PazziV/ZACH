@@ -13,7 +13,7 @@ Stepper::Stepper()
 
     gpioWrite(ENABLE, PI_HIGH);
 
-    calibrate();
+    //calibrate();
 }
 
 void Stepper::moveByMM(int a_mm, Direction a_dir)
