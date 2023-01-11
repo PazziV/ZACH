@@ -23,12 +23,14 @@ void conPrintBoard();
 
 int main()
 {
+    printf("start\n");
+
     tempPiece.steppers = &steppers;
     tempPiece.playField = &playField;
 
     resetBoard();
-    //conPrintBoard();
-    playField[34]->conPrintBoard();
+    conPrintBoard();
+    printf("conPrintBoard done\n");
 
     while(1)
     {
@@ -50,6 +52,11 @@ void resetBoard()
     playField[4] = new cp::King(Color::Black, Point(4,0));
     for(int i = 8; i <= 15; i++)
         playField[i] = new cp::Pawn(Color::Black, Point((i-8),1));
+
+    for(int i = 16; i <= 55; i++)
+    {
+        playField[i] = new ChessPiece();
+    }
 
     playField[56] = new cp::Rook(Color::White, Point(0,7)); playField[60] = new cp::Rook(Color::White, Point(7,7));
     playField[57] = new cp::Knight(Color::White, Point(1,7)); playField[61] = new cp::Knight(Color::White, Point(6,7));
@@ -101,4 +108,5 @@ void conPrintBoard()    //print Board to Console
                 }
             }
         }
+        printf("\n");
 }
