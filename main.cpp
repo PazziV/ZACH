@@ -36,7 +36,8 @@ int main()
     conPrintBoard();
     printf("conPrintBoard done\n");
 
-    while(1)
+    //steppers.stepperTest();
+    /*while(1)
     {
         // Test code
         int x1, y1, x2, y2;
@@ -46,6 +47,7 @@ int main()
         cin >> x2 >> y2;
 
         int a1 = y1*(x1+1);
+
         playField[a1]->moveTo(Point(x2,y2));
         int a2 = y2*(x2+1);
         playField[a2]->m_type = playField[a1]->m_type;
@@ -53,7 +55,13 @@ int main()
 
         conPrintBoard();
         printf("conPrintBoard done\n");
-    }
+    }*/
+
+    playField[56]->moveTo(Point(0,6));
+    playField[48]->m_type = playField[56]->m_type;
+    playField[56]->m_type = PieceType::none;
+    conPrintBoard();
+    printf("conPrintBoard done\n");
 
     return 1;
 }

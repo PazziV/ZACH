@@ -16,6 +16,12 @@ Stepper::Stepper()
     //calibrate();
 }
 
+void Stepper::stepperTest()
+{
+    moveByMM(45, Direction::Forwards);
+    moveByMM(45, Direction::Backwards);
+}
+
 void Stepper::moveByMM(int a_mm, Direction a_dir)
 {
     switch(a_dir)

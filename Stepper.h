@@ -11,7 +11,7 @@ using namespace std;
 #define distancePerStep 0.2 //mm
 #define distancePerRotation 40  //mm
 
-#define fieldSize 50 //mm
+#define fieldSize 45//50 //mm
 
 #define M1_STEP 5     //Stepper 1 Step Pin
 #define M1_DIR 6     //Stepper 1 Direction Pin
@@ -48,5 +48,6 @@ class Stepper
         void moveByMM(int a_mm, Direction a_dir);
         void calibrate();
         void moveToPoint(Point aDesPoint);
+        void stepperTest();
 };
 #endif
