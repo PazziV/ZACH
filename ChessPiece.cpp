@@ -6,6 +6,7 @@ array<ChessPiece*, 64>* ChessPiece::playField = 0;
 ChessPiece::ChessPiece()
 {
     m_type = PieceType::none;
+    m_col = Color::blank;
 }
 
 ChessPiece::ChessPiece(Color aCol, PieceType aType, Point aPos)
@@ -35,6 +36,9 @@ void ChessPiece::GetPieceType(Point aPoint)
 
 void ChessPiece::moveTo(Point aDesPoint)
 {
+    //debug shit
+    printf("Entered moveTo in ChessPiece.cpp\n");
+    //----------
 }
 
 void ChessPiece::conPrintBoard()    //print Board to Console

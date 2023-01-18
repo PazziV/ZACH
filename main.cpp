@@ -36,8 +36,9 @@ int main()
     conPrintBoard();
     printf("conPrintBoard done\n");
 
-    //steppers.stepperTest();
-    /*while(1)
+    steppers.stepperTest();
+    time_sleep(1);
+    while(1)
     {
         // Test code
         int x1, y1, x2, y2;
@@ -46,22 +47,33 @@ int main()
         cout << "Move to: ";
         cin >> x2 >> y2;
 
-        int a1 = y1*(x1+1);
+        Point cPoint(x1,y1);
+        Point desPoint(x2,y2);
 
-        playField[a1]->moveTo(Point(x2,y2));
-        int a2 = y2*(x2+1);
+        steppers.moveToPoint(cPoint);
+
+        int a1, a2;
+        bool exit = false;
+        for(a1 = 0; a1 < 64 && exit == false; a1++)
+        {
+            if(playField[a1]->m_pos == cPoint)
+                exit = true;
+        }
+        exit = false;
+        for(a2 = 0; a2 < 64 && exit == false; a2++)
+        {
+            if(playField[a2]->m_pos == desPoint)
+                exit = true;
+        }
+
+        playField[a1]->moveTo(desPoint);
+
         playField[a2]->m_type = playField[a1]->m_type;
         playField[a1]->m_type = PieceType::none;
 
         conPrintBoard();
         printf("conPrintBoard done\n");
-    }*/
-
-    playField[56]->moveTo(Point(0,6));
-    playField[48]->m_type = playField[56]->m_type;
-    playField[56]->m_type = PieceType::none;
-    conPrintBoard();
-    printf("conPrintBoard done\n");
+    }
 
     return 1;
 }
@@ -97,7 +109,7 @@ void resetBoard()
 
 void conPrintBoard()    //print Board to Console
 {
-    for(int i = 0; i < 64; i++)
+    for(int i = 0; i < 64; i++) //print piece type
         {
             if(i % 8 == 0)
                 printf("\n");
@@ -133,7 +145,37 @@ void conPrintBoard()    //print Board to Console
                     printf("K ");
                     break;
                 }
+                case PieceType::none:
+                {
+                    printf("  ");
+                    break;
+                }
             }
         }
-        printf("\n");
+    printf("\n");
+
+    for(int i = 0; i < 64; i++) // print color of piece
+    {
+        if(i % 8 == 0)
+            printf("\n");
+        switch(playField[i]->m_col)
+        {
+            case Color::Black:
+            {
+                printf("B ");
+                break;
+            }
+            case Color::White:
+            {
+                printf("W ");
+                break;
+            }
+            case Color::blank:
+            {
+                printf("  ");
+                break;
+            }
+        }
+    }
+    printf("\n");
 }

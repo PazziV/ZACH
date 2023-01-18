@@ -12,7 +12,8 @@ using namespace std;
 
 enum Color{
     Black = 0,
-    White
+    White,
+    blank
 };
 
 enum PieceType{
