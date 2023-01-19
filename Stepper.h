@@ -49,5 +49,6 @@ class Stepper
         void calibrate();
         void moveToPoint(Point aDesPoint);
         void stepperTest();
+        void stepperTest2();
 };
 #endif

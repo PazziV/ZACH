@@ -13,13 +13,20 @@ Stepper::Stepper()
 
     gpioWrite(ENABLE, PI_HIGH);
 
-    //calibrate();
+    //calibrate();      <<<<------ dont forget to activate
 }
 
 void Stepper::stepperTest()
 {
     moveByMM(45, Direction::Forwards);
     moveByMM(45, Direction::Backwards);
+}
+void Stepper::stepperTest2()
+{
+    moveByMM(45, Direction::Forwards);
+    moveByMM(45, Direction::Left);
+    moveByMM(45, Direction::Backwards);
+    moveByMM(45, Direction::Right);
 }
 
 void Stepper::moveByMM(int a_mm, Direction a_dir)
@@ -28,14 +35,14 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
     {
         case 0:     //Backwards
         {
-            gpioWrite(M1_DIR, PI_LOW);
-            gpioWrite(M2_DIR, PI_HIGH);
+            gpioWrite(M1_DIR, PI_HIGH);
+            gpioWrite(M2_DIR, PI_LOW);
             break;
         }
         case 1:     //Forwards
         {
-            gpioWrite(M1_DIR, PI_HIGH);
-            gpioWrite(M2_DIR, PI_LOW);
+            gpioWrite(M1_DIR, PI_LOW);
+            gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
         case 2:     //Left
@@ -148,16 +155,21 @@ void Stepper::calibrate()
 
 void Stepper::moveToPoint(Point aDesPoint)
 {
-    int xdiff = aDesPoint.x - currPoint.x;
-    int ydiff = aDesPoint.y - currPoint.y;
+    if(aDesPoint != currPoint)
+    {
+        int xdiff = aDesPoint.x - currPoint.x;
+        int ydiff = aDesPoint.y - currPoint.y;
 
-    if(xdiff < 0)
-        moveByMM(abs(xdiff)*fieldSize, Direction::Left);
-    else if(xdiff > 0)
-        moveByMM(abs(xdiff)*fieldSize, Direction::Right);
+        if(xdiff < 0)
+            moveByMM(abs(xdiff)*fieldSize, Direction::Left);
+        else if(xdiff > 0)
+            moveByMM(abs(xdiff)*fieldSize, Direction::Right);
 
-    if(ydiff < 0)
-        moveByMM(abs(ydiff)*fieldSize, Direction::Backwards);
-    else if(ydiff > 0)
-        moveByMM(abs(ydiff)*fieldSize, Direction::Forwards);
+        if(ydiff < 0)
+            moveByMM(abs(ydiff)*fieldSize, Direction::Forwards);
+        else if(ydiff > 0)
+            moveByMM(abs(ydiff)*fieldSize, Direction::Backwards);
+        
+        currPoint = aDesPoint;
+    }
 }

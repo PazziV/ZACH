@@ -34,47 +34,47 @@ int main()
     steppers.currPoint = Point(0,7);
 
     conPrintBoard();
-    printf("conPrintBoard done\n");
 
     steppers.stepperTest();
     time_sleep(1);
+    
     while(1)
     {
         // Test code
         int x1, y1, x2, y2;
         cout << "Select Piece: ";
         cin >> x1 >> y1;
+        printf("cPoint: %d, %d", x1,y1);
         cout << "Move to: ";
         cin >> x2 >> y2;
+        printf("desPoint: %d, %d", x2,y2);
 
         Point cPoint(x1,y1);
         Point desPoint(x2,y2);
 
         steppers.moveToPoint(cPoint);
+        time_sleep(1);
 
         int a1, a2;
         bool exit = false;
         for(a1 = 0; a1 < 64 && exit == false; a1++)
         {
             if(playField[a1]->m_pos == cPoint)
-                exit = true;
+                break;
         }
         exit = false;
         for(a2 = 0; a2 < 64 && exit == false; a2++)
         {
             if(playField[a2]->m_pos == desPoint)
-                exit = true;
+                break;
         }
 
         playField[a1]->moveTo(desPoint);
 
-        playField[a2]->m_type = playField[a1]->m_type;
-        playField[a1]->m_type = PieceType::none;
-
         conPrintBoard();
-        printf("conPrintBoard done\n");
+        time_sleep(1);
     }
-
+    
     return 1;
 }
 
