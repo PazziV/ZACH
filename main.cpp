@@ -28,8 +28,13 @@ int main()
     tempPiece.steppers = &steppers;
     tempPiece.playField = &playField;
 
-    resetBoard();
-
+    //resetBoard();
+    playField[56] = new cp::Rook(Color::White, Point(0,7));
+    for(int i = 0; i <= 63; i++)
+    {
+        if(i != 56)
+            playField[i] = new ChessPiece();
+    }
     //steppers.calibrate();
     steppers.currPoint = Point(0,7);
 
@@ -37,42 +42,30 @@ int main()
 
     steppers.stepperTest();
     time_sleep(1);
-    
+
+    steppers.moveToPoint(Point(0,7));
+    playField[56]->moveTo(Point(0,0));
+    conPrintBoard();
+    printf("Move 1 done\n");
+    time_sleep(10);
+    playField[0]->moveTo(Point(7,0));
+    conPrintBoard();
+    printf("Move 2 done\n");
+    time_sleep(10);
+    playField[7]->moveTo(Point(7,7));
+    conPrintBoard();
+    printf("Move 3 done\n");
+    time_sleep(10);
+    playField[63]->moveTo(Point(0,0));
+    conPrintBoard();
+    printf("Move 5 done\n");
+    time_sleep(10);
+    playField[63]->moveTo(Point(0,7));
+    conPrintBoard();
+    printf("Move 6 done\n");
+
     while(1)
     {
-        // Test code
-        int x1, y1, x2, y2;
-        cout << "Select Piece: ";
-        cin >> x1 >> y1;
-        printf("cPoint: %d, %d", x1,y1);
-        cout << "Move to: ";
-        cin >> x2 >> y2;
-        printf("desPoint: %d, %d", x2,y2);
-
-        Point cPoint(x1,y1);
-        Point desPoint(x2,y2);
-
-        steppers.moveToPoint(cPoint);
-        time_sleep(1);
-
-        int a1, a2;
-        bool exit = false;
-        for(a1 = 0; a1 < 64 && exit == false; a1++)
-        {
-            if(playField[a1]->m_pos == cPoint)
-                break;
-        }
-        exit = false;
-        for(a2 = 0; a2 < 64 && exit == false; a2++)
-        {
-            if(playField[a2]->m_pos == desPoint)
-                break;
-        }
-
-        playField[a1]->moveTo(desPoint);
-
-        conPrintBoard();
-        time_sleep(1);
     }
     
     return 1;
@@ -154,28 +147,28 @@ void conPrintBoard()    //print Board to Console
         }
     printf("\n");
 
-    for(int i = 0; i < 64; i++) // print color of piece
-    {
-        if(i % 8 == 0)
-            printf("\n");
-        switch(playField[i]->m_col)
-        {
-            case Color::Black:
-            {
-                printf("B ");
-                break;
-            }
-            case Color::White:
-            {
-                printf("W ");
-                break;
-            }
-            case Color::blank:
-            {
-                printf("  ");
-                break;
-            }
-        }
-    }
-    printf("\n");
+    // for(int i = 0; i < 64; i++) // print color of piece
+    // {
+    //     if(i % 8 == 0)
+    //         printf("\n");
+    //     switch(playField[i]->m_col)
+    //     {
+    //         case Color::Black:
+    //         {
+    //             printf("B ");
+    //             break;
+    //         }
+    //         case Color::White:
+    //         {
+    //             printf("W ");
+    //             break;
+    //         }
+    //         case Color::blank:
+    //         {
+    //             printf("  ");
+    //             break;
+    //         }
+    //     }
+    // }
+    // printf("\n");
 }

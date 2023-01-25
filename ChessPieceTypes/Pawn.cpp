@@ -117,8 +117,8 @@ void Pawn::moveTo(Point aDesPoint)
                 if((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            (*playField)[neu] = this;
             this->m_pos = aDesPoint;
+            (*playField)[neu] = this;
             (*playField)[alt]->m_type = PieceType::none;
             (*playField)[alt]->m_col = Color::blank;
             
