@@ -106,23 +106,34 @@ void Pawn::moveTo(Point aDesPoint)
                }
             }
             //move virtually
-            int alt, neu;
-            for(alt = 0; alt < 64; alt++)
-            {
-                if((*playField)[alt]->m_pos == this->m_pos)
-                    break;
-            }
+            int neu,alt;
             for(neu = 0; neu < 64; neu++)
             {
                 if((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            this->m_pos = aDesPoint;
-            (*playField)[neu] = this;
-            (*playField)[alt]->m_type = PieceType::none;
-            (*playField)[alt]->m_col = Color::blank;
-            
-            steppers->currPoint = this->m_pos;
+            printf("neu: %d\n", neu);
+            printf("test %d %d\n", (*playField)[neu]->m_col, m_col);
+            (*playField)[neu]->m_col = m_col;
+            printf("käse\n");
+            (*playField)[neu]->m_type = m_type;
+            printf("schinken\n");
+            (*playField)[neu]->m_pos = aDesPoint;
+            printf("schmutz\n");
+            m_type = PieceType::none;
+            m_col = Color::blank;
+            printf("NEU=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[neu]->m_type, (*playField)[neu]->m_col,
+                                                           (*playField)[neu]->m_pos.x, (*playField)[neu]->m_pos.y);
+            for(alt = 0; alt < 64; alt++)
+            {
+                if((*playField)[alt]->m_pos == m_pos)
+                    break;
+            }
+            printf("alt: %d\n", alt);
+            printf("ALT=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[alt]->m_type, (*playField)[alt]->m_col,
+                                                           (*playField)[alt]->m_pos.x, (*playField)[alt]->m_pos.y);
+            printf("THIS(ALT)=>Type: %d, Col: %d, Pos: %d/%d\n", m_type, m_col,m_pos.x, m_pos.y);                                               
+            steppers->currPoint = aDesPoint;
         }
     }
 }

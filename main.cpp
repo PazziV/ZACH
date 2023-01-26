@@ -29,11 +29,11 @@ int main()
     tempPiece.playField = &playField;
 
     //resetBoard();
-    playField[56] = new cp::Rook(Color::White, Point(0,7));
+    playField[56] = new cp::Pawn(Color::White, Point(0,7));
     for(int i = 0; i <= 63; i++)
     {
         if(i != 56)
-            playField[i] = new ChessPiece();
+            playField[i] = new ChessPiece(i);
     }
     //steppers.calibrate();
     steppers.currPoint = Point(0,7);
@@ -44,23 +44,27 @@ int main()
     time_sleep(1);
 
     steppers.moveToPoint(Point(0,7));
-    playField[56]->moveTo(Point(0,0));
+    playField[56]->moveTo(Point(0,5));
     conPrintBoard();
     printf("Move 1 done\n");
     time_sleep(10);
-    playField[0]->moveTo(Point(7,0));
+    steppers.moveToPoint(Point(0,5));
+    playField[40]->moveTo(Point(0,4));
     conPrintBoard();
     printf("Move 2 done\n");
     time_sleep(10);
-    playField[7]->moveTo(Point(7,7));
+    steppers.moveToPoint(Point(0,4));
+    playField[32]->moveTo(Point(0,2));
     conPrintBoard();
     printf("Move 3 done\n");
     time_sleep(10);
-    playField[63]->moveTo(Point(0,0));
+    steppers.moveToPoint(Point(0,4));
+    playField[32]->moveTo(Point(0,3));
     conPrintBoard();
     printf("Move 5 done\n");
     time_sleep(10);
-    playField[63]->moveTo(Point(0,7));
+    steppers.moveToPoint(Point(0,3));
+    playField[24]->moveTo(Point(0,2));
     conPrintBoard();
     printf("Move 6 done\n");
 
@@ -105,7 +109,7 @@ void conPrintBoard()    //print Board to Console
     for(int i = 0; i < 64; i++) //print piece type
         {
             if(i % 8 == 0)
-                printf("\n");
+                printf("\n*");
             switch(playField[i]->m_type)
             {
                 case PieceType::Rook:

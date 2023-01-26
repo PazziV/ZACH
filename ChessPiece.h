@@ -38,6 +38,7 @@ class ChessPiece
         static array<ChessPiece*, 64>* playField;
 
         ChessPiece();
+        ChessPiece(int aArrPos);
         ChessPiece(Color aCol, PieceType aType, Point aPos);
         virtual vector<Point> getPossibleMoves();
         void GetPieceType(Point aPoint);

@@ -5,8 +5,57 @@ array<ChessPiece*, 64>* ChessPiece::playField = 0;
 
 ChessPiece::ChessPiece()
 {
+
+}
+
+ChessPiece::ChessPiece(int aArrPos)
+{
     m_type = PieceType::none;
     m_col = Color::blank;
+    int x,y;
+    
+    if(aArrPos <= 7)
+    {
+        y = 0;
+        x = aArrPos;
+    }
+    else if(aArrPos <= 15)
+    {
+        y = 1;
+        x = (aArrPos-8);
+    }
+    else if(aArrPos <= 23)
+    {
+        y = 2;
+        x = (aArrPos-16);
+    }
+    else if(aArrPos <= 31)
+    {
+        y = 3;
+        x = (aArrPos-24);
+    }
+    else if(aArrPos <= 39)
+    {
+        y = 4;
+        x = (aArrPos-32);
+    }
+    else if(aArrPos <= 47)
+    {
+        y = 5;
+        x = (aArrPos-40);
+    }
+    else if(aArrPos <= 55)
+    {
+        y = 6;
+        x = (aArrPos-48);
+    }
+    else if(aArrPos <= 63)
+    {
+        y = 7;
+        x = (aArrPos-56);
+    }
+
+    m_pos = Point(x,y);
 }
 
 ChessPiece::ChessPiece(Color aCol, PieceType aType, Point aPos)
