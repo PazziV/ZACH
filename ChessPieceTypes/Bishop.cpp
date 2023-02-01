@@ -43,6 +43,8 @@ void Bishop::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            steppers->moveToPoint(m_pos);
+            
             int diff = aDesPoint.x - this->m_pos.x;
             int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
 
@@ -61,7 +63,23 @@ void Bishop::moveTo(Point aDesPoint)
                     steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
 
-            this->m_pos = aDesPoint;
+            // move virtually
+            int neu, alt;
+            for (neu = 0; neu < 64; neu++)
+            {
+                if ((*playField)[neu]->m_pos == aDesPoint)
+                    break;
+            }
+            delete (*playField)[neu];
+            (*playField)[neu] = new Bishop(m_col, aDesPoint);
+            m_type = PieceType::none;
+            m_col = Color::blank;
+            for (alt = 0; alt < 64; alt++)
+            {
+                if ((*playField)[alt]->m_pos == m_pos)
+                    break;
+            }
+            steppers->currPoint = aDesPoint;
         }
     }
 }

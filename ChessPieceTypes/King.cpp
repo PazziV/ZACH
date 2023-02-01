@@ -42,6 +42,8 @@ void King::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            steppers->moveToPoint(m_pos);
+            
             if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
                 if(aDesPoint.x == this->m_pos.x)
@@ -86,7 +88,24 @@ void King::moveTo(Point aDesPoint)
                         steppers->moveByMM(diagonal, Direction::DiagonalLF);
                 }
             }
-            this->m_pos = aDesPoint;
+            
+            // move virtually
+            int neu, alt;
+            for (neu = 0; neu < 64; neu++)
+            {
+                if ((*playField)[neu]->m_pos == aDesPoint)
+                    break;
+            }
+            delete (*playField)[neu];
+            (*playField)[neu] = new King(m_col, aDesPoint);
+            m_type = PieceType::none;
+            m_col = Color::blank;
+            for (alt = 0; alt < 64; alt++)
+            {
+                if ((*playField)[alt]->m_pos == m_pos)
+                    break;
+            }
+            steppers->currPoint = aDesPoint;
         }
     }
 }

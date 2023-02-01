@@ -28,13 +28,7 @@ int main()
     tempPiece.steppers = &steppers;
     tempPiece.playField = &playField;
 
-    //resetBoard();
-    playField[56] = new cp::Pawn(Color::White, Point(0,7));
-    for(int i = 0; i <= 63; i++)
-    {
-        if(i != 56)
-            playField[i] = new ChessPiece(i);
-    }
+    resetBoard();
     //steppers.calibrate();
     steppers.currPoint = Point(0,7);
 
@@ -43,40 +37,24 @@ int main()
     steppers.stepperTest();
     time_sleep(1);
 
-    steppers.moveToPoint(Point(0,7));
-    playField[56]->printPieceInfo();
+
+    for(int i = 48; i < 56; i++)
+    {
+        playField[i]->moveTo(Point((i-48), 4));
+        time_sleep(1);
+    }
     playField[56]->moveTo(Point(0,5));
-    conPrintBoard();
-    printf("Move 1 done\n");
-    time_sleep(5);
-
-    steppers.moveToPoint(Point(1,5));
-    steppers.moveToPoint(Point(0,5));
-    playField[40]->printPieceInfo();
-    playField[40]->moveTo(Point(0,4));
-    conPrintBoard();
-    printf("Move 2 done\n");
-    time_sleep(5);
-
-    steppers.moveToPoint(Point(0,4));
-    playField[32]->printPieceInfo();
-    playField[32]->moveTo(Point(0,2));
-    conPrintBoard();
-    printf("Move 3 done\n");
-    time_sleep(5);
-
-    steppers.moveToPoint(Point(0,4));
-    playField[32]->printPieceInfo();
-    playField[32]->moveTo(Point(0,3));
-    conPrintBoard();
-    printf("Move 5 done\n");
-    time_sleep(5);
-
-    steppers.moveToPoint(Point(0,3));
-    playField[24]->printPieceInfo();
-    playField[24]->moveTo(Point(0,2));
-    conPrintBoard();
-    printf("Move 6 done\n");
+    time_sleep(1);
+    playField[57]->moveTo(Point(2,5));
+    time_sleep(1);
+    playField[58]->moveTo(Point(4,5));
+    time_sleep(1);
+    playField[59]->moveTo(Point(2,6));
+    time_sleep(1);
+    playField[50]->moveTo(Point(0,6));
+    time_sleep(1);
+    playField[60]->moveTo(Point(3,7));
+    time_sleep(1);
 
     //while(1){}
     
@@ -108,8 +86,6 @@ void resetBoard()
     playField[59] = new cp::Queen(Color::White, Point(3,7)); playField[60] = new cp::King(Color::White, Point(4,7));
     for(int i = 48; i <= 55; i++)
         playField[i] = new cp::Pawn(Color::White, Point((i-48),6));
-
-    // WENN FIGUREN VOM FELD GENOMMEN WERDEN AUS ARRAY DELETEN!!!!!!!!!! ==> delete playField[x];
 }
 
 void conPrintBoard()    //print Board to Console

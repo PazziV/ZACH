@@ -45,6 +45,8 @@ void Rook::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            steppers->moveToPoint(m_pos);
+            
             if(aDesPoint.x == this->m_pos.x)
             {
                 int ydiff = aDesPoint.y - this->m_pos.y;
@@ -70,40 +72,23 @@ void Rook::moveTo(Point aDesPoint)
                 }
             }   
 
-            //move virtually
-            int alt, neu;
-            for(alt = 0; alt < 64; alt++)
+             // move virtually
+            int neu, alt;
+            for (neu = 0; neu < 64; neu++)
             {
-                if((*playField)[alt]->m_pos == this->m_pos)
+                if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            printf("alt: %d\n", alt);
-            printf("ALTpos: %d/%d\n", (*playField)[alt]->m_pos.x, (*playField)[alt]->m_pos.y);
-            Point oldPos = (*playField)[alt]->m_pos;
-            for(neu = 0; neu < 64; neu++)
+            delete (*playField)[neu];
+            (*playField)[neu] = new Rook(m_col, aDesPoint);
+            m_type = PieceType::none;
+            m_col = Color::blank;
+            for (alt = 0; alt < 64; alt++)
             {
-                if((*playField)[neu]->m_pos == aDesPoint)
+                if ((*playField)[alt]->m_pos == m_pos)
                     break;
             }
-            printf("neu: %d\n", neu);
-            printf("NEUpos: %d/%d\n", (*playField)[neu]->m_pos.x, (*playField)[neu]->m_pos.y);
-
-            printf("THISpos: %d/%d\n", this->m_pos.x, this->m_pos.y);
-            this->m_pos = aDesPoint;
-            (*playField)[alt]->m_pos = oldPos;
-            printf("ALT=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[alt]->m_type, (*playField)[alt]->m_col,
-                                                           (*playField)[alt]->m_pos.x, (*playField)[alt]->m_pos.y);
-            printf("THISpos: %d/%d\n", this->m_pos.x, this->m_pos.y);
-            (*playField)[neu] = this;
-            printf("THIS=>Type: %d, Col: %d, Pos: %d/%d\n", this->m_type, this->m_col, this->m_pos.x, this->m_pos.y);
-            printf("NEU=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[neu]->m_type, (*playField)[neu]->m_col,
-                                                           (*playField)[neu]->m_pos.x, (*playField)[neu]->m_pos.y);
-            (*playField)[alt]->m_type = PieceType::none;
-            (*playField)[alt]->m_col = Color::blank;
-            printf("ALT=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[alt]->m_type, (*playField)[alt]->m_col,
-                                                           (*playField)[alt]->m_pos.x, (*playField)[alt]->m_pos.y);
-            
-            steppers->currPoint = this->m_pos; 
+            steppers->currPoint = aDesPoint;
         }
     }
 }

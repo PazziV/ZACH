@@ -196,3 +196,13 @@ void ChessPiece::printPieceInfo()
     printf("Point: x=%d, y=%d\n", m_pos.x, m_pos.y);
     printf("********************\n");
 }
+
+void ChessPiece::magnetOn()
+{
+    
+}
+
+void ChessPiece::magnetOff()
+{
+
+}

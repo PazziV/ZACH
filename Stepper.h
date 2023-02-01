@@ -18,12 +18,12 @@ using namespace std;
 #define M2_STEP 13     //Stepper 2 Step Pin
 #define M2_DIR 19     //Stepper 2 Direction Pin
 
+#define ENABLE 26   //HIGH => Input off; LOW => Input on
+
 #define LIMIT_X_LEFT 20  //left Limit Switch X-Axis (Letters)
 #define LIMIT_X_RIGHT 21  //right Limit Switch X-Axis (Letters)
 #define LIMIT_Y_UPPER 12  //upper Limit Switch Y-Axis (Numbers)
 #define LIMIT_Y_LOWER 16  //lower Limit Switch Y-Axis (Numbers)
-
-#define ENABLE 26   //HIGH => Input off; LOW => Input on
 
 #define X_DISTANCE_TO_A1 38 //Distance in mm from left X-Axis limit switch to field A1
 #define Y_DISTANCE_TO_A1 5 //Distance in mm from lower-left Y-Axis limit switch to field A1
