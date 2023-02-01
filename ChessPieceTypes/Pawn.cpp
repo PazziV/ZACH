@@ -113,13 +113,11 @@ void Pawn::moveTo(Point aDesPoint)
                     break;
             }
             printf("neu: %d\n", neu);
-            printf("test %d %d\n", (*playField)[neu]->m_col, m_col);
-            (*playField)[neu]->m_col = m_col;
-            printf("käse\n");
-            (*playField)[neu]->m_type = m_type;
-            printf("schinken\n");
-            (*playField)[neu]->m_pos = aDesPoint;
-            printf("schmutz\n");
+            delete (*playField)[neu];
+            (*playField)[neu] = new Pawn(m_col, aDesPoint);
+            // (*playField)[neu]->m_col = m_col;
+            // (*playField)[neu]->m_type = m_type;
+            // (*playField)[neu]->m_pos = aDesPoint;
             m_type = PieceType::none;
             m_col = Color::blank;
             printf("NEU=>Type: %d, Col: %d, Pos: %d/%d\n", (*playField)[neu]->m_type, (*playField)[neu]->m_col,

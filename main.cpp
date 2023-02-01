@@ -44,33 +44,41 @@ int main()
     time_sleep(1);
 
     steppers.moveToPoint(Point(0,7));
+    playField[56]->printPieceInfo();
     playField[56]->moveTo(Point(0,5));
     conPrintBoard();
     printf("Move 1 done\n");
-    time_sleep(10);
+    time_sleep(5);
+
+    steppers.moveToPoint(Point(1,5));
     steppers.moveToPoint(Point(0,5));
+    playField[40]->printPieceInfo();
     playField[40]->moveTo(Point(0,4));
     conPrintBoard();
     printf("Move 2 done\n");
-    time_sleep(10);
+    time_sleep(5);
+
     steppers.moveToPoint(Point(0,4));
+    playField[32]->printPieceInfo();
     playField[32]->moveTo(Point(0,2));
     conPrintBoard();
     printf("Move 3 done\n");
-    time_sleep(10);
+    time_sleep(5);
+
     steppers.moveToPoint(Point(0,4));
+    playField[32]->printPieceInfo();
     playField[32]->moveTo(Point(0,3));
     conPrintBoard();
     printf("Move 5 done\n");
-    time_sleep(10);
+    time_sleep(5);
+
     steppers.moveToPoint(Point(0,3));
+    playField[24]->printPieceInfo();
     playField[24]->moveTo(Point(0,2));
     conPrintBoard();
     printf("Move 6 done\n");
 
-    while(1)
-    {
-    }
+    //while(1){}
     
     return 1;
 }

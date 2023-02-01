@@ -131,3 +131,68 @@ void ChessPiece::conPrintBoard()    //print Board to Console
             }
         }
 }
+
+void ChessPiece::printPieceInfo()
+{
+    printf("*****Piece Info*****\n");
+    printf("Color: ");
+    switch(m_col)
+    {
+        case Color::blank:
+        {
+            printf("none\n");
+            break;
+        }
+        case Color::Black:
+        {
+            printf("Black\n");
+            break;
+        }
+        case Color::White:
+        {
+            printf("White\n");
+            break;
+        }
+    }
+    printf("Type: ");
+    switch(m_type)
+    {
+        case PieceType::none:
+        {
+            printf("none\n");
+            break;
+        }
+        case PieceType::Rook:
+        {
+            printf("Rook\n");
+            break;
+        }
+        case PieceType::Knight:
+        {
+            printf("Knight\n");
+            break;
+        }
+        case PieceType::Bishop:
+        {
+            printf("Bishop\n");
+            break;
+        }
+        case PieceType::Pawn:
+        {
+            printf("Pawn\n");
+            break;
+        }
+        case PieceType::Queen:
+        {
+            printf("Queen\n");
+            break;
+        }
+        case PieceType::King:
+        {
+            printf("King\n");
+            break;
+        }
+    }
+    printf("Point: x=%d, y=%d\n", m_pos.x, m_pos.y);
+    printf("********************\n");
+}
