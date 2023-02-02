@@ -48,6 +48,7 @@ void Queen::moveTo(Point aDesPoint)
         if(aDesPoint == possibleMoves[i])
         {
             steppers->moveToPoint(m_pos);
+            time_sleep(1);
             
             if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
@@ -108,11 +109,7 @@ void Queen::moveTo(Point aDesPoint)
             (*playField)[neu] = new Queen(m_col, aDesPoint);
             m_type = PieceType::none;
             m_col = Color::blank;
-            for (alt = 0; alt < 64; alt++)
-            {
-                if ((*playField)[alt]->m_pos == m_pos)
-                    break;
-            }
+            
             steppers->currPoint = aDesPoint;
         }
     }

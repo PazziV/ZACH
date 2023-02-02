@@ -9,7 +9,9 @@ Bishop::Bishop(Color aCol, Point aPos)
     m_type = PieceType::Bishop;
 
     m_MoveSet = {Point(1,1), Point(2,2), Point(3,3), Point(4,4), Point(5,5), Point(6,6), Point(7,7),
-                 Point(-1,-1), Point(-2,-2), Point(-3,-3), Point(-4,-4), Point(-5,-5), Point(-6,-6), Point(-7,-7)};
+                 Point(-1,-1), Point(-2,-2), Point(-3,-3), Point(-4,-4), Point(-5,-5), Point(-6,-6), Point(-7,-7),
+                 Point(-1,1), Point(-2,2), Point(-3,3), Point(-4,4), Point(-5,5), Point(-6,6), Point(-7,7),
+                 Point(1,-1), Point(2,-2), Point(3,-3), Point(4,-4), Point(5,-5), Point(6,-6), Point(7,-7)};
 }
 
 vector<Point> Bishop::getPossibleMoves()
@@ -44,6 +46,7 @@ void Bishop::moveTo(Point aDesPoint)
         if(aDesPoint == possibleMoves[i])
         {
             steppers->moveToPoint(m_pos);
+            time_sleep(1);
             
             int diff = aDesPoint.x - this->m_pos.x;
             int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
@@ -64,7 +67,7 @@ void Bishop::moveTo(Point aDesPoint)
             }
 
             // move virtually
-            int neu, alt;
+            int neu;
             for (neu = 0; neu < 64; neu++)
             {
                 if ((*playField)[neu]->m_pos == aDesPoint)
@@ -74,11 +77,7 @@ void Bishop::moveTo(Point aDesPoint)
             (*playField)[neu] = new Bishop(m_col, aDesPoint);
             m_type = PieceType::none;
             m_col = Color::blank;
-            for (alt = 0; alt < 64; alt++)
-            {
-                if ((*playField)[alt]->m_pos == m_pos)
-                    break;
-            }
+            
             steppers->currPoint = aDesPoint;
         }
     }

@@ -21,6 +21,10 @@ ChessPiece tempPiece;
 void resetBoard();
 void conPrintBoard();
 
+void Test1();
+void Test2();
+void Test3();
+
 int main()
 {
     printf("start\n");
@@ -28,37 +32,147 @@ int main()
     tempPiece.steppers = &steppers;
     tempPiece.playField = &playField;
 
-    resetBoard();
-    //steppers.calibrate();
-    steppers.currPoint = Point(0,7);
-
-    conPrintBoard();
+    //resetBoard();
+    steppers.currPoint = Point(0,7); //steppers.calibrate();
 
     steppers.stepperTest();
     time_sleep(1);
 
+    //Test3();
+    steppers.moveByMM(50, Direction::DiagonalRF);
 
-    for(int i = 48; i < 56; i++)
-    {
-        playField[i]->moveTo(Point((i-48), 4));
-        time_sleep(1);
-    }
-    playField[56]->moveTo(Point(0,5));
-    time_sleep(1);
-    playField[57]->moveTo(Point(2,5));
-    time_sleep(1);
-    playField[58]->moveTo(Point(4,5));
-    time_sleep(1);
-    playField[59]->moveTo(Point(2,6));
-    time_sleep(1);
-    playField[50]->moveTo(Point(0,6));
-    time_sleep(1);
-    playField[60]->moveTo(Point(3,7));
-    time_sleep(1);
+    steppers.moveToPoint(Point(0,7));
 
     //while(1){}
     
     return 1;
+}
+
+void Test1()
+{
+    playField[48] = new cp::Pawn(Color::White, Point(0,6));
+    for(int i = 0; i <= 63; i++)
+    {
+        if(i != 48)
+            playField[i] = new ChessPiece(i);
+    }
+
+    playField[48]->printPieceInfo();
+    playField[48]->moveTo(Point(0,4));
+    conPrintBoard();
+    printf("Move 1 done\n");
+    time_sleep(5);
+
+    playField[32]->printPieceInfo();
+    playField[32]->moveTo(Point(0,3));
+    conPrintBoard();
+    printf("Move 2 done\n");
+    time_sleep(5);
+
+    playField[24]->printPieceInfo();
+    playField[24]->moveTo(Point(0,1));
+    conPrintBoard();
+    printf("Move 3 done\n");
+    time_sleep(5);
+
+    playField[24]->printPieceInfo();
+    playField[24]->moveTo(Point(0,2));
+    conPrintBoard();
+    printf("Move 5 done\n");
+    time_sleep(5);
+
+    playField[16]->printPieceInfo();
+    playField[16]->moveTo(Point(0,1));
+    conPrintBoard();
+    printf("Move 6 done\n");
+}
+
+void Test2()
+{
+    resetBoard();
+
+    for(int i = 48; i < 56; i++)
+    {
+        playField[i]->printPieceInfo();
+        playField[i]->moveTo(Point((i-48), 4));
+        conPrintBoard();
+        time_sleep(2);
+    }
+    playField[56]->moveTo(Point(0,5));
+    conPrintBoard();
+    time_sleep(3);
+
+    playField[57]->moveTo(Point(2,5));
+    conPrintBoard();
+    time_sleep(3);
+
+    playField[58]->moveTo(Point(4,5));
+    conPrintBoard();
+    time_sleep(3);
+
+    playField[59]->moveTo(Point(2,6));
+    conPrintBoard();
+    time_sleep(3);
+
+    playField[50]->moveTo(Point(0,6));
+    conPrintBoard();
+    time_sleep(3);
+
+    playField[60]->moveTo(Point(3,7));
+    conPrintBoard();
+    time_sleep(3);
+}
+
+void Test3()
+{
+    playField[35] = new cp::Bishop(Color::White, Point(3,4));
+    for(int i = 0; i <= 63; i++)
+    {
+        if(i != 35)
+            playField[i] = new ChessPiece(i);
+    }
+
+    playField[35]->printPieceInfo();
+    playField[35]->moveTo(Point(7,0));
+    conPrintBoard();
+    printf("Move 1 done\n");
+    time_sleep(3);
+
+    playField[7]->printPieceInfo();
+    playField[7]->moveTo(Point(3,4));
+    conPrintBoard();
+    printf("Move 2 done\n");
+    time_sleep(3);
+
+    playField[35]->printPieceInfo();
+    playField[35]->moveTo(Point(0,1));
+    conPrintBoard();
+    printf("Move 3 done\n");
+    time_sleep(3);
+
+    playField[8]->printPieceInfo();
+    playField[8]->moveTo(Point(6,7));
+    conPrintBoard();
+    printf("Move 4 done\n");
+    time_sleep(3);
+
+    playField[62]->printPieceInfo();
+    playField[62]->moveTo(Point(6,0));
+    conPrintBoard();
+    printf("Move 5 done\n");
+    time_sleep(3);
+
+    playField[62]->printPieceInfo();
+    playField[62]->moveTo(Point(0,7));
+    conPrintBoard();
+    printf("Move 6 done\n");
+    time_sleep(3);
+
+    playField[62]->printPieceInfo();
+    playField[62]->moveTo(Point(0,3));
+    conPrintBoard();
+    printf("Move 7 done\n");
+    time_sleep(3);
 }
 
 void resetBoard()
@@ -75,9 +189,9 @@ void resetBoard()
     for(int i = 8; i <= 15; i++)
         playField[i] = new cp::Pawn(Color::Black, Point((i-8),1));
 
-    for(int i = 16; i <= 55; i++)
+    for(int i = 16; i <= 55; i++) 
     {
-        playField[i] = new ChessPiece();
+        playField[i] = new ChessPiece(i);   // empty fields
     }
 
     playField[56] = new cp::Rook(Color::White, Point(0,7)); playField[63] = new cp::Rook(Color::White, Point(7,7));

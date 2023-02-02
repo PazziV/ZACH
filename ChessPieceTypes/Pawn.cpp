@@ -52,6 +52,7 @@ void Pawn::moveTo(Point aDesPoint)
         if (aDesPoint == possibleMoves[i])
         {
             steppers->moveToPoint(m_pos);
+            time_sleep(1);
 
             if (this->m_pos.x == aDesPoint.x)
             {
@@ -93,7 +94,7 @@ void Pawn::moveTo(Point aDesPoint)
             }
 
             // move virtually
-            int neu, alt;
+            int neu;
             for (neu = 0; neu < 64; neu++)
             {
                 if ((*playField)[neu]->m_pos == aDesPoint)
@@ -103,11 +104,7 @@ void Pawn::moveTo(Point aDesPoint)
             (*playField)[neu] = new Pawn(m_col, aDesPoint);
             m_type = PieceType::none;
             m_col = Color::blank;
-            for (alt = 0; alt < 64; alt++)
-            {
-                if ((*playField)[alt]->m_pos == m_pos)
-                    break;
-            }
+            
             steppers->currPoint = aDesPoint;
         }
     }

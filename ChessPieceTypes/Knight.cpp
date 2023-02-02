@@ -43,7 +43,8 @@ void Knight::moveTo(Point aDesPoint)
         if(aDesPoint == possibleMoves[i])
         {
             steppers->moveToPoint(m_pos);
-            
+            time_sleep(1);
+
             int ydiff = aDesPoint.y - this->m_pos.y;
             int xdiff = aDesPoint.x - this->m_pos.x;
             int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
@@ -103,7 +104,7 @@ void Knight::moveTo(Point aDesPoint)
             }
 
             // move virtually
-            int neu, alt;
+            int neu;
             for (neu = 0; neu < 64; neu++)
             {
                 if ((*playField)[neu]->m_pos == aDesPoint)
@@ -113,11 +114,7 @@ void Knight::moveTo(Point aDesPoint)
             (*playField)[neu] = new Knight(m_col, aDesPoint);
             m_type = PieceType::none;
             m_col = Color::blank;
-            for (alt = 0; alt < 64; alt++)
-            {
-                if ((*playField)[alt]->m_pos == m_pos)
-                    break;
-            }
+            
             steppers->currPoint = aDesPoint;
         } 
     }

@@ -99,21 +99,27 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
     }
     else if(a_dir <= 5) // Diagonal Right
     {
-        gpioWrite(M1_STEP, PI_HIGH);
-        gpioWrite(M2_STEP, PI_LOW);
-        time_sleep(0.0009);
-        gpioWrite(M1_STEP, PI_LOW);
-        gpioWrite(M2_STEP, PI_LOW);
-        time_sleep(0.0009);
+        for(int i = 0; i < reqSteps; i++)
+        {
+            gpioWrite(M1_STEP, PI_HIGH);
+            gpioWrite(M2_STEP, PI_LOW);
+            time_sleep(0.0009);
+            gpioWrite(M1_STEP, PI_LOW);
+            gpioWrite(M2_STEP, PI_LOW);
+            time_sleep(0.0009);
+        }
     }
     else    // Diagonal Left
     {
-        gpioWrite(M1_STEP, PI_LOW);
-        gpioWrite(M2_STEP, PI_HIGH);
-        time_sleep(0.0009);
-        gpioWrite(M1_STEP, PI_LOW);
-        gpioWrite(M2_STEP, PI_LOW);
-        time_sleep(0.0009);
+        for(int i = 0; i < reqSteps; i++)
+        {
+            gpioWrite(M1_STEP, PI_LOW);
+            gpioWrite(M2_STEP, PI_HIGH);
+            time_sleep(0.0009);
+            gpioWrite(M1_STEP, PI_LOW);
+            gpioWrite(M2_STEP, PI_LOW);
+            time_sleep(0.0009);
+        }
     }
     gpioWrite(ENABLE, PI_HIGH);
 }
