@@ -47,7 +47,7 @@ void Knight::moveTo(Point aDesPoint)
 
             int ydiff = aDesPoint.y - this->m_pos.y;
             int xdiff = aDesPoint.x - this->m_pos.x;
-            int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
+            float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
             // ****** Move diagonal to first corner ******
             if(xdiff > 0 && ydiff < 0)

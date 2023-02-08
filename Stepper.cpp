@@ -29,7 +29,7 @@ void Stepper::stepperTest2()
     moveByMM(45, Direction::Right);
 }
 
-void Stepper::moveByMM(int a_mm, Direction a_dir)
+void Stepper::moveByMM(float a_mm, Direction a_dir)
 {
     switch(a_dir)
     {
@@ -57,7 +57,7 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
-        case 4:     //Diagonal-Right-Forwards
+        case 4:     //Diagonal-Left-Forwards
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_HIGH);
@@ -69,13 +69,13 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
-        case 6:     //Diagonal-Left-Forwards
+        case 6:     //Diagonal-Right-Forwards
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case 7:     //Diagonal-Left-Forwards
+        case 7:     //Diagonal-Left-Backwards
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_LOW);
@@ -84,6 +84,7 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
     }
 
     int reqSteps = a_mm / distancePerStep;  // amount of steps required to travel desired distance
+    printf("reqSteps: %d\n", reqSteps);
     gpioWrite(ENABLE, PI_LOW);
     if(a_dir <= 3)  // straight
     {
@@ -97,7 +98,7 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
             time_sleep(0.0009);
         }
     }
-    else if(a_dir <= 5) // Diagonal Right
+    else if(a_dir == 4 || a_dir == 5) // Diagonal Right
     {
         for(int i = 0; i < reqSteps; i++)
         {
@@ -127,31 +128,31 @@ void Stepper::moveByMM(int a_mm, Direction a_dir)
 void Stepper::calibrate()
 {
     // move to lower-left corner until limit switches are triggered then move to closest field (A1)
-    while(gpioRead(LIMIT_X_LEFT) == PI_LOW)
-    {
-        gpioWrite(M1_DIR, PI_HIGH);
-        gpioWrite(M2_DIR, PI_HIGH);
+    // while(gpioRead(LIMIT_X_LEFT) == PI_LOW)
+    // {
+    //     gpioWrite(M1_DIR, PI_HIGH);
+    //     gpioWrite(M2_DIR, PI_HIGH);
 
-        gpioWrite(M1_STEP, PI_HIGH);
-        gpioWrite(M2_STEP, PI_HIGH);
-        time_sleep(0.001);
-        gpioWrite(M1_STEP, PI_LOW);
-        gpioWrite(M2_STEP, PI_LOW);
-        time_sleep(0.001);
-    }
+    //     gpioWrite(M1_STEP, PI_HIGH);
+    //     gpioWrite(M2_STEP, PI_HIGH);
+    //     time_sleep(0.001);
+    //     gpioWrite(M1_STEP, PI_LOW);
+    //     gpioWrite(M2_STEP, PI_LOW);
+    //     time_sleep(0.001);
+    // }
 
-    while(gpioRead(LIMIT_Y_LOWER) == PI_LOW)
-    {
-        gpioWrite(M1_DIR, PI_LOW);
-        gpioWrite(M2_DIR, PI_HIGH);
+    // while(gpioRead(LIMIT_Y_LOWER) == PI_LOW)
+    // {
+    //     gpioWrite(M1_DIR, PI_LOW);
+    //     gpioWrite(M2_DIR, PI_HIGH);
 
-        gpioWrite(M1_STEP, PI_HIGH);
-        gpioWrite(M2_STEP, PI_HIGH);
-        time_sleep(0.001);
-        gpioWrite(M1_STEP, PI_LOW);
-        gpioWrite(M2_STEP, PI_LOW);
-        time_sleep(0.001);
-    }
+    //     gpioWrite(M1_STEP, PI_HIGH);
+    //     gpioWrite(M2_STEP, PI_HIGH);
+    //     time_sleep(0.001);
+    //     gpioWrite(M1_STEP, PI_LOW);
+    //     gpioWrite(M2_STEP, PI_LOW);
+    //     time_sleep(0.001);
+    // }
 
     moveByMM(X_DISTANCE_TO_A1, Direction::Right);
     moveByMM(Y_DISTANCE_TO_A1, Direction::Forwards);

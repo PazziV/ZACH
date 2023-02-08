@@ -10,6 +10,8 @@ Queen::Queen(Color aCol, Point aPos)
 
     m_MoveSet = {Point(1,1), Point(2,2), Point(3,3), Point(4,4), Point(5,5), Point(6,6), Point(7,7),
                  Point(-1,-1), Point(-2,-2), Point(-3,-3), Point(-4,-4), Point(-5,-5), Point(-6,-6), Point(-7,-7),
+                 Point(-1,1), Point(-2,2), Point(-3,3), Point(-4,4), Point(-5,5), Point(-6,6), Point(-7,7),
+                 Point(1,-1), Point(2,-2), Point(3,-3), Point(4,-4), Point(5,-5), Point(6,-6), Point(7,-7),
                  Point(0,1), Point(0,2), Point(0,3), Point(0,4), Point(0,5), Point(0,6), Point(0,7),
                  Point(0,-1), Point(0,-2), Point(0,-3), Point(0,-4), Point(0,-5), Point(0,-6), Point(0,-7),
                  Point(1,0), Point(2,0), Point(3,0), Point(4,0), Point(5,0), Point(6,0), Point(7,0),
@@ -80,7 +82,9 @@ void Queen::moveTo(Point aDesPoint)
             else // move diagonal
             {
                 int diff = aDesPoint.x - this->m_pos.x;
-                int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
+                printf("diff: %d\n", diff);
+                float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
+                printf("diagonal: %d\n", diagonal);
 
                 if(aDesPoint.x > this->m_pos.x)
                 {

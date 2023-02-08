@@ -68,7 +68,7 @@ void Pawn::moveTo(Point aDesPoint)
             }
             else
             {
-                int diagonal = round((sqrt(2 * (fieldSize * fieldSize))));
+                float diagonal = (sqrt(2 * (fieldSize * fieldSize)));
                 if (this->m_col == Color::White)
                 {
                     if (aDesPoint.x > this->m_pos.x)

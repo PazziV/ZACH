@@ -72,7 +72,7 @@ void King::moveTo(Point aDesPoint)
             }
             else // move diagonal
             {
-                int diagonal = round((sqrt(2*(fieldSize*fieldSize))));
+                float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
                 if(aDesPoint.x > this->m_pos.x)
                 {

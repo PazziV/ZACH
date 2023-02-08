@@ -49,7 +49,8 @@ void Bishop::moveTo(Point aDesPoint)
             time_sleep(1);
             
             int diff = aDesPoint.x - this->m_pos.x;
-            int diagonal = round(abs(diff)*(sqrt(2*(fieldSize*fieldSize))));
+            float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
+            printf("diagonal: %.2f\n", diagonal);
 
             if(aDesPoint.x > this->m_pos.x)
             {
