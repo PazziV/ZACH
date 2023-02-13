@@ -83,11 +83,11 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
         }
     }
 
-    int reqSteps = a_mm / distancePerStep;  // amount of steps required to travel desired distance
-    printf("reqSteps: %d\n", reqSteps);
+    
     gpioWrite(ENABLE, PI_LOW);
     if(a_dir <= 3)  // straight
     {
+        int reqSteps = a_mm / distancePerStep;  // amount of steps required to travel desired distance
         for(int i = 0; i < reqSteps; i++)
         {
             gpioWrite(M1_STEP, PI_HIGH);
@@ -100,6 +100,7 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
     }
     else if(a_dir == 4 || a_dir == 5) // Diagonal Right
     {
+        int reqSteps = a_mm / diagonalDistancePerStep;
         for(int i = 0; i < reqSteps; i++)
         {
             gpioWrite(M1_STEP, PI_HIGH);
@@ -112,6 +113,7 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
     }
     else    // Diagonal Left
     {
+        int reqSteps = a_mm / diagonalDistancePerStep;
         for(int i = 0; i < reqSteps; i++)
         {
             gpioWrite(M1_STEP, PI_LOW);

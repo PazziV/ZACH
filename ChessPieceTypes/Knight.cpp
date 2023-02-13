@@ -110,6 +110,7 @@ void Knight::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
+            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Knight(m_col, aDesPoint);
             m_type = PieceType::none;

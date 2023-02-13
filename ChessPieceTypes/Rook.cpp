@@ -80,6 +80,7 @@ void Rook::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
+            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Rook(m_col, aDesPoint);
             m_type = PieceType::none;

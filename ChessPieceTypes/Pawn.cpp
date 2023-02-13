@@ -36,7 +36,15 @@ vector<Point> Pawn::getPossibleMoves()
             if (occupant.m_col != m_col)
             {
                 if (occupant.m_type != PieceType::King)
-                    possibleMoves.push_back(desPoint);
+                {
+                    if(desPoint.x == m_pos.x)
+                        possibleMoves.push_back(desPoint);
+                    else   
+                    {
+                        if(occupant.m_col != Color::blank)  // only allow diagonal move if there is an enemy
+                            possibleMoves.push_back(desPoint);
+                    }
+                }
             }
         }
     }
@@ -100,6 +108,7 @@ void Pawn::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
+            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Pawn(m_col, aDesPoint);
             m_type = PieceType::none;

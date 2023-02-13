@@ -90,6 +90,11 @@ void ChessPiece::moveTo(Point aDesPoint)
     //----------
 }
 
+void ChessPiece::removeCapturedPiece()
+{
+    
+}
+
 void ChessPiece::conPrintBoard()    //print Board to Console
 {
     for(int i = 0; i < 64; i++)

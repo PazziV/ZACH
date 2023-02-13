@@ -50,7 +50,6 @@ void Bishop::moveTo(Point aDesPoint)
             
             int diff = aDesPoint.x - this->m_pos.x;
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
-            printf("diagonal: %.2f\n", diagonal);
 
             if(aDesPoint.x > this->m_pos.x)
             {
@@ -74,6 +73,7 @@ void Bishop::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
+            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Bishop(m_col, aDesPoint);
             m_type = PieceType::none;

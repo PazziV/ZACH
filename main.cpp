@@ -39,15 +39,8 @@ int main()
     steppers.stepperTest();
     time_sleep(1);
 
-    //Test3();
+    Test3();
 
-    playField[56] = new cp::Bishop(Color::White, Point(0,7));
-    for(int i = 0; i <= 63; i++)
-    {
-        if(i != 56)
-            playField[i] = new ChessPiece(i);
-    }
-    //playField[56]->moveTo(Point(1,6));
     //while(1){}
     
     return 1;
@@ -130,47 +123,29 @@ void Test2()
 
 void Test3()
 {
-    playField[56] = new cp::Queen(Color::White, Point(0,7));
     for(int i = 0; i <= 63; i++)
     {
-        if(i != 56)
-            playField[i] = new ChessPiece(i);
+        playField[i] = new ChessPiece(i);
     }
+    delete playField[48]; playField[48] = new cp::Pawn(Color::White, Point(0,6));
+    delete playField[25]; playField[25] = new cp::Pawn(Color::Black, Point(1,3));
 
-    playField[56]->printPieceInfo();
-    playField[56]->moveTo(Point(7,0));
+    playField[48]->printPieceInfo();
+    playField[48]->moveTo(Point(1,5));
     conPrintBoard();
     printf("Move 1 done\n");
     time_sleep(3);
 
-    playField[7]->printPieceInfo();
-    playField[7]->moveTo(Point(0,0));
+    playField[48]->printPieceInfo();
+    playField[48]->moveTo(Point(0,4));
     conPrintBoard();
     printf("Move 2 done\n");
     time_sleep(3);
 
-    playField[0]->printPieceInfo();
-    playField[0]->moveTo(Point(0,7));
+    playField[32]->printPieceInfo();
+    playField[32]->moveTo(Point(1,3));
     conPrintBoard();
     printf("Move 3 done\n");
-    time_sleep(3);
-
-    playField[56]->printPieceInfo();
-    playField[56]->moveTo(Point(7,7));
-    conPrintBoard();
-    printf("Move 4 done\n");
-    time_sleep(3);
-
-    playField[63]->printPieceInfo();
-    playField[63]->moveTo(Point(7,0));
-    conPrintBoard();
-    printf("Move 5 done\n");
-    time_sleep(3);
-
-    playField[7]->printPieceInfo();
-    playField[7]->moveTo(Point(5,1));
-    conPrintBoard();
-    printf("Move 6 done\n");
     time_sleep(3);
 }
 

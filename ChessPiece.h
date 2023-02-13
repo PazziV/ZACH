@@ -43,6 +43,7 @@ class ChessPiece
         virtual vector<Point> getPossibleMoves();
         void GetPieceType(Point aPoint);
         virtual void moveTo(Point aDesPoint);
+        void removeCapturedPiece();
         void conPrintBoard();
         void printPieceInfo();
 };
