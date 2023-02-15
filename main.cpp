@@ -21,8 +21,7 @@ ChessPiece tempPiece;
 void resetBoard();
 void conPrintBoard();
 
-void Test1();
-void Test2();
+void Test();
 void Test3();
 
 int main()
@@ -46,78 +45,38 @@ int main()
     return 1;
 }
 
-void Test1()
+void Test()
 {
-    playField[48] = new cp::Pawn(Color::White, Point(0,6));
     for(int i = 0; i <= 63; i++)
     {
-        if(i != 48)
-            playField[i] = new ChessPiece(i);
+        playField[i] = new ChessPiece(i);
     }
+    delete playField[56]; playField[56] = new cp::Bishop(Color::White, Point(0,7));
 
-    playField[48]->printPieceInfo();
-    playField[48]->moveTo(Point(0,4));
+    conPrintBoard();
+
+    playField[56]->printPieceInfo();
+    playField[56]->moveTo(Point(7,0));
     conPrintBoard();
     printf("Move 1 done\n");
-    time_sleep(5);
+    time_sleep(3);
 
-    playField[32]->printPieceInfo();
-    playField[32]->moveTo(Point(0,3));
+    playField[7]->printPieceInfo();
+    playField[7]->moveTo(Point(3,4));
     conPrintBoard();
     printf("Move 2 done\n");
-    time_sleep(5);
+    time_sleep(3);
 
-    playField[24]->printPieceInfo();
-    playField[24]->moveTo(Point(0,1));
+    playField[35]->printPieceInfo();
+    playField[35]->moveTo(Point(6,7));
     conPrintBoard();
     printf("Move 3 done\n");
-    time_sleep(5);
-
-    playField[24]->printPieceInfo();
-    playField[24]->moveTo(Point(0,2));
-    conPrintBoard();
-    printf("Move 5 done\n");
-    time_sleep(5);
-
-    playField[16]->printPieceInfo();
-    playField[16]->moveTo(Point(0,1));
-    conPrintBoard();
-    printf("Move 6 done\n");
-}
-
-void Test2()
-{
-    resetBoard();
-
-    for(int i = 48; i < 56; i++)
-    {
-        playField[i]->printPieceInfo();
-        playField[i]->moveTo(Point((i-48), 4));
-        conPrintBoard();
-        time_sleep(2);
-    }
-    playField[56]->moveTo(Point(0,5));
-    conPrintBoard();
     time_sleep(3);
 
-    playField[57]->moveTo(Point(2,5));
+    playField[62]->printPieceInfo();
+    playField[62]->moveTo(Point(0,0));
     conPrintBoard();
-    time_sleep(3);
-
-    playField[58]->moveTo(Point(4,5));
-    conPrintBoard();
-    time_sleep(3);
-
-    playField[59]->moveTo(Point(2,6));
-    conPrintBoard();
-    time_sleep(3);
-
-    playField[50]->moveTo(Point(0,6));
-    conPrintBoard();
-    time_sleep(3);
-
-    playField[60]->moveTo(Point(3,7));
-    conPrintBoard();
+    printf("Move 4 done\n");
     time_sleep(3);
 }
 
@@ -143,6 +102,7 @@ void Test3()
     time_sleep(3);
 
     playField[32]->printPieceInfo();
+    playField[25]->printPieceInfo();
     playField[32]->moveTo(Point(1,3));
     conPrintBoard();
     printf("Move 3 done\n");

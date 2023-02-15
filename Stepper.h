@@ -35,10 +35,10 @@ enum Direction{
     Forwards,
     Left,
     Right,
-    DiagonalLF, //Diagonal-Right-Forwards
-    DiagonalRB, //Diagonal-Right-Backwards
-    DiagonalRF, //Diagonal-Left-Forwards
-    DiagonalLB  //Diagonal-Left-Backwards
+    DiagonalRF, //Diagonal-Right-Forwards
+    DiagonalLB, //Diagonal-Left-Backwards
+    DiagonalLF, //Diagonal-Left-Forwards
+    DiagonalRB  //Diagonal-Right-Backwards
 };
 
 class Stepper
