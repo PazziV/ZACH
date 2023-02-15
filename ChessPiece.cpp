@@ -92,7 +92,36 @@ void ChessPiece::moveTo(Point aDesPoint)
 
 void ChessPiece::removeCapturedPiece()
 {
-    
+    steppers->moveToPoint(m_pos);
+    gpioWrite(MAGNET_PIN, PI_HIGH);
+
+    float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
+
+    if(m_col == Color::White)
+    {
+        steppers->moveByMM(diagonal, Direction::DiagonalLF);    //move to field Corner
+        int xdiff = abs(0 - m_pos.x);
+        steppers->moveByMM((xdiff*fieldSize + 45), Direction::Left);    //move outside of playfield
+        int ydiff = abs(0 - m_pos.y);
+        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Forwards);
+
+        gpioWrite(MAGNET_PIN, PI_LOW);
+        steppers->moveByMM(45+fieldSize/2, Direction::Right);   //move back to closest field
+        steppers->currPoint = Point(0,0);
+    }
+    else if(m_col == Color::Black)
+    {
+
+        steppers->moveByMM(diagonal, Direction::DiagonalRB);    
+        int xdiff = 7 - m_pos.x;
+        steppers->moveByMM((xdiff*fieldSize + 45), Direction::Left); 
+        int ydiff = 7 - m_pos.y;
+        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Backwards);
+
+        gpioWrite(MAGNET_PIN, PI_LOW);
+        steppers->moveByMM(45+fieldSize/2, Direction::Left);
+        steppers->currPoint = Point(7,7);
+    }    
 }
 
 void ChessPiece::conPrintBoard()    //print Board to Console

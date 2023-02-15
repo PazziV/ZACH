@@ -45,12 +45,19 @@ void Bishop::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            ChessPiece occupant;
+            occupant.GetPieceType(aDesPoint);
+
+            if(occupant.m_col != Color::blank)
+                occupant.removeCapturedPiece();
+                
             steppers->moveToPoint(m_pos);
             time_sleep(1);
             
             int diff = aDesPoint.x - this->m_pos.x;
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
 
+            gpioWrite(MAGNET_PIN, PI_HIGH);
             if(aDesPoint.x > this->m_pos.x)
             {
                 if(aDesPoint.y > this->m_pos.y)
@@ -65,6 +72,7 @@ void Bishop::moveTo(Point aDesPoint)
                 else
                     steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
+            gpioWrite(MAGNET_PIN, PI_LOW);
 
             // move virtually
             int neu;
@@ -73,7 +81,6 @@ void Bishop::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Bishop(m_col, aDesPoint);
             m_type = PieceType::none;

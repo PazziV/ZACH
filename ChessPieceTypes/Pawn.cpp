@@ -59,9 +59,16 @@ void Pawn::moveTo(Point aDesPoint)
     {
         if (aDesPoint == possibleMoves[i])
         {
+            ChessPiece occupant;
+            occupant.GetPieceType(aDesPoint);
+
+            if(occupant.m_col != Color::blank)
+                occupant.removeCapturedPiece();
+                
             steppers->moveToPoint(m_pos);
             time_sleep(1);
 
+            gpioWrite(MAGNET_PIN, PI_HIGH);
             if (this->m_pos.x == aDesPoint.x)
             {
                 int diff = aDesPoint.y - this->m_pos.y;
@@ -100,6 +107,7 @@ void Pawn::moveTo(Point aDesPoint)
                     }
                 }
             }
+            gpioWrite(MAGNET_PIN, PI_LOW);
 
             // move virtually
             int neu;
@@ -108,7 +116,6 @@ void Pawn::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Pawn(m_col, aDesPoint);
             m_type = PieceType::none;

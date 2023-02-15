@@ -42,6 +42,12 @@ void Knight::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            ChessPiece occupant;
+            occupant.GetPieceType(aDesPoint);
+
+            if(occupant.m_col != Color::blank)
+                occupant.removeCapturedPiece();
+                
             steppers->moveToPoint(m_pos);
             time_sleep(1);
 
@@ -49,6 +55,7 @@ void Knight::moveTo(Point aDesPoint)
             int xdiff = aDesPoint.x - this->m_pos.x;
             float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
+            gpioWrite(MAGNET_PIN, PI_HIGH);
             // ****** Move diagonal to first corner ******
             if(xdiff > 0 && ydiff < 0)
             {
@@ -102,6 +109,7 @@ void Knight::moveTo(Point aDesPoint)
             {
                 steppers->moveByMM(diagonal/2, Direction::DiagonalLF);
             }
+            gpioWrite(MAGNET_PIN, PI_LOW);
 
             // move virtually
             int neu;
@@ -110,7 +118,6 @@ void Knight::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Knight(m_col, aDesPoint);
             m_type = PieceType::none;

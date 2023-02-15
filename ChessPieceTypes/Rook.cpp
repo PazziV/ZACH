@@ -45,9 +45,16 @@ void Rook::moveTo(Point aDesPoint)
     {
         if(aDesPoint == possibleMoves[i])
         {
+            ChessPiece occupant;
+            occupant.GetPieceType(aDesPoint);
+
+            if(occupant.m_col != Color::blank)
+                occupant.removeCapturedPiece();
+
             steppers->moveToPoint(m_pos);
             time_sleep(1);
             
+            gpioWrite(MAGNET_PIN, PI_HIGH);
             if(aDesPoint.x == this->m_pos.x)
             {
                 int ydiff = aDesPoint.y - this->m_pos.y;
@@ -71,7 +78,8 @@ void Rook::moveTo(Point aDesPoint)
                 {
                     steppers->moveByMM(abs(xdiff)*fieldSize, Direction::Left);
                 }
-            }   
+            }  
+            gpioWrite(MAGNET_PIN, PI_LOW);
 
              // move virtually
             int neu;
@@ -80,7 +88,6 @@ void Rook::moveTo(Point aDesPoint)
                 if ((*playField)[neu]->m_pos == aDesPoint)
                     break;
             }
-            removeCapturedPiece();
             delete (*playField)[neu];
             (*playField)[neu] = new Rook(m_col, aDesPoint);
             m_type = PieceType::none;
