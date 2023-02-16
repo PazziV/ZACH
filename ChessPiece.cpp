@@ -98,6 +98,7 @@ void ChessPiece::removeCapturedPiece()
     time_sleep(2);
 
     steppers->moveToPoint(m_pos);
+    time_sleep(0.5);
     gpioWrite(MAGNET_PIN, PI_HIGH);
 
     float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
@@ -108,29 +109,31 @@ void ChessPiece::removeCapturedPiece()
         steppers->moveByMM(diagonal, Direction::DiagonalLF);    //move to field Corner
         time_sleep(0.5);
         int xdiff = abs(0 - m_pos.x);
-        steppers->moveByMM((xdiff*fieldSize + 45), Direction::Left);    //move outside of playfield
+        steppers->moveByMM((xdiff*fieldSize + 20), Direction::Left);    //move outside of playfield
         time_sleep(0.5);
         int ydiff = abs(0 - m_pos.y);
-        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Forwards);
+        steppers->moveByMM((ydiff*fieldSize), Direction::Forwards);
 
         gpioWrite(MAGNET_PIN, PI_LOW);
         time_sleep(1);
-        steppers->moveByMM(45+fieldSize/2, Direction::Right);   //move back to closest field
+        steppers->moveByMM(45, Direction::Right);   //move back to closest field
         steppers->currPoint = Point(0,0);
         //oder falls error zu groß easy fix wäre einfach steppers->calibrate()
     }
     else if(m_col == Color::Black)
     {
+        steppers->moveByMM(diagonal, Direction::DiagonalRB);
+        time_sleep(0.5);
         int xdiff = 7 - m_pos.x;
-        steppers->moveByMM((xdiff*fieldSize + 45), Direction::Right);
+        steppers->moveByMM((xdiff*fieldSize + 20), Direction::Right);
         time_sleep(0.5);
         int ydiff = 7 - m_pos.y;
         time_sleep(0.5);
-        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Backwards);
+        steppers->moveByMM((ydiff*fieldSize), Direction::Backwards);
 
         gpioWrite(MAGNET_PIN, PI_LOW);
         time_sleep(1);
-        steppers->moveByMM(45+fieldSize/2, Direction::Left);
+        steppers->moveByMM(45, Direction::Left);
         steppers->currPoint = Point(7,7);
     }    
 }

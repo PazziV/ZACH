@@ -15,7 +15,7 @@ using namespace std;
 
 #define fieldSize 50 //mm
 
-#define X_DISTANCE_TO_A1 48 //Distance in mm from left X-Axis limit switch to field A1
+#define X_DISTANCE_TO_A1 43 //Distance in mm from left X-Axis limit switch to field A1
 #define Y_DISTANCE_TO_A1 5 //Distance in mm from lower-left Y-Axis limit switch to field A1
 
 #define M1_STEP 5     //Stepper 1 Step Pin
@@ -25,8 +25,8 @@ using namespace std;
 
 #define ENABLE 26   //HIGH => Input off; LOW => Input on
 
-#define LIMIT_X_LEFT 20  //left Limit Switch X-Axis (Letters)
-#define LIMIT_Y_LOWER 16  //lower Limit Switch Y-Axis (Numbers)
+#define LIMIT_X_LEFT 16  //left Limit Switch X-Axis (Letters)
+#define LIMIT_Y_LOWER 20  //lower Limit Switch Y-Axis (Numbers)
 
 #define MAGNET_PIN 21
 

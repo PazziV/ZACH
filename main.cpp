@@ -93,20 +93,20 @@ void Test3()
     playField[48]->moveTo(Point(1,5));
     conPrintBoard();
     printf("Move 1 done\n");
-    time_sleep(3);
+    time_sleep(2);
 
     playField[48]->printPieceInfo();
     playField[48]->moveTo(Point(0,4));
     conPrintBoard();
     printf("Move 2 done\n");
-    time_sleep(3);
+    time_sleep(2);
 
     playField[32]->printPieceInfo();
     playField[25]->printPieceInfo();
     playField[32]->moveTo(Point(1,3));
     conPrintBoard();
     printf("Move 3 done\n");
-    time_sleep(3);
+    time_sleep(2);
 }
 
 void resetBoard()

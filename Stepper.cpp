@@ -83,7 +83,6 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
         }
     }
 
-    
     gpioWrite(ENABLE, PI_LOW);
     if(a_dir <= 3)  // straight
     {
@@ -129,32 +128,16 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
 
 void Stepper::calibrate()
 {
-    // move to lower-left corner until limit switches are triggered then move to closest field (A1)
-    // while(gpioRead(LIMIT_X_LEFT) == PI_LOW)
-    // {
-    //     gpioWrite(M1_DIR, PI_HIGH);
-    //     gpioWrite(M2_DIR, PI_HIGH);
+    //move to lower-left corner until limit switches are triggered then move to closest field (A1)
+    while(gpioRead(LIMIT_X_LEFT) == PI_HIGH)
+    {
+        moveByMM(distancePerStep, Direction::Left);
+    }
 
-    //     gpioWrite(M1_STEP, PI_HIGH);
-    //     gpioWrite(M2_STEP, PI_HIGH);
-    //     time_sleep(0.001);
-    //     gpioWrite(M1_STEP, PI_LOW);
-    //     gpioWrite(M2_STEP, PI_LOW);
-    //     time_sleep(0.001);
-    // }
-
-    // while(gpioRead(LIMIT_Y_LOWER) == PI_LOW)
-    // {
-    //     gpioWrite(M1_DIR, PI_LOW);
-    //     gpioWrite(M2_DIR, PI_HIGH);
-
-    //     gpioWrite(M1_STEP, PI_HIGH);
-    //     gpioWrite(M2_STEP, PI_HIGH);
-    //     time_sleep(0.001);
-    //     gpioWrite(M1_STEP, PI_LOW);
-    //     gpioWrite(M2_STEP, PI_LOW);
-    //     time_sleep(0.001);
-    // }
+    while(gpioRead(LIMIT_Y_LOWER) == PI_HIGH)
+    {
+        moveByMM(distancePerStep, Direction::Backwards);
+    }
 
     moveByMM(X_DISTANCE_TO_A1, Direction::Right);
     moveByMM(Y_DISTANCE_TO_A1, Direction::Forwards);
