@@ -33,49 +33,49 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
 {
     switch(a_dir)
     {
-        case 0:     //Backwards
+        case Direction::Backwards:
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
-        case 1:     //Forwards
+        case Direction::Forwards:
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case 2:     //Left
+        case Direction::Left:
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case 3:     //Right
+        case Direction::Right:
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
-        case 4:     //Diagonal-Left-Forwards
+        case Direction::DiagonalLF:
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case 5:     //Diagonal-Right-Backwards
+        case Direction::DiagonalRB:
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_LOW);
             break;
         }
-        case 6:     //Diagonal-Right-Forwards
+        case Direction::DiagonalRF:
         {
             gpioWrite(M1_DIR, PI_LOW);
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case 7:     //Diagonal-Left-Backwards
+        case Direction::DiagonalLB
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_LOW);
