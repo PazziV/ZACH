@@ -1,28 +1,42 @@
-#include <iostream>
-#include <vector>
-#include </home/zach/ZACH/ChessPiece.h>
-#include </home/zach/ZACH/ChessPieceTypes/Pawn.h>
-#include </home/zach/ZACH/ChessPieceTypes/Bishop.h>
-#include </home/zach/ZACH/ChessPieceTypes/Rook.h>
-#include </home/zach/ZACH/ChessPieceTypes/Knight.h>
-#include </home/zach/ZACH/ChessPieceTypes/Queen.h>
-#include </home/zach/ZACH/ChessPieceTypes/King.h>
-#include </home/zach/ZACH/Stepper.h>
 #include <array>
+#include <iostream>
+#include <string>
+#include <vector>
+
+#include </home/zach/ZACH/ChessPiece.h>
+#include </home/zach/ZACH/ChessPieceTypes/Bishop.h>
+#include </home/zach/ZACH/ChessPieceTypes/King.h>
+#include </home/zach/ZACH/ChessPieceTypes/Knight.h>
+#include </home/zach/ZACH/ChessPieceTypes/Pawn.h>
+#include </home/zach/ZACH/ChessPieceTypes/Queen.h>
+#include </home/zach/ZACH/ChessPieceTypes/Rook.h>
+#include </home/zach/ZACH/Stepper.h>
+
+#include <websocketpp/config/asio_no_tls.hpp>
+#include <websocketpp/server.hpp>
 
 using namespace std;
+
+typedef websocketpp::server<websocketpp::config::asio> server;
+
+enum command{
+    RESET = 0,
+    SYNC,
+    GETMOVES,
+    MOVE
+};
 
 array<ChessPiece*, 64> playField;
 
 Stepper steppers;
 ChessPiece tempPiece;
 
-
 void resetBoard();
 void conPrintBoard();
 
-void Test();
-void Test3();
+void socketSendBoard(server endpoint);
+void socketSendMoves(server endpoint, char* msgArray);
+void movePiece(char* msgArray);
 
 int main()
 {
@@ -31,82 +45,44 @@ int main()
     tempPiece.steppers = &steppers;
     tempPiece.playField = &playField;
 
-    //resetBoard();
+    resetBoard();
     steppers.calibrate();
 
-    time_sleep(1);
-    steppers.stepperTest();
-    time_sleep(1);
+    //-----WebSocket Communication-----
+    server endpoint;
+    endpoint.set_access_channels(websocketpp::log::alevel::all);
+    endpoint.init_asio();   // initialize server
 
-    Test3();
+    //message handler for incoming messages
+    endpoint.set_message_handler([&endpoint](websocketpp::connection_hdl hdl, server::message_ptr msg) {
+        printf("[Received]: %s \n", msg->get_payload());
 
-    //while(1){}
-    
-    return 1;
-}
+        // endpoint.send(hdl, msg->get_payload(), msg->get_opcode());   // echo the message back
 
-void Test()
-{
-    for(int i = 0; i <= 63; i++)
-    {
-        playField[i] = new ChessPiece(i);
-    }
-    delete playField[56]; playField[56] = new cp::Bishop(Color::White, Point(0,7));
+        char* msgArray = strtok((char*)msg->get_payload().c_str(), " ");
 
-    conPrintBoard();
+        switch (stoi((char*)msgArray[0])){
+            case command::RESET:
+                resetBoard();
+                steppers.calibrate();
+                break;
+            case command::SYNC:
+                socketSendBoard(endpoint);
+                break;
+            case command::GETMOVES:
+                socketSendMoves(endpoint);
+                break;
+            case command::MOVE:
+                movePiece(msgArray);
+                break;
+        }
+    });
 
-    playField[56]->printPieceInfo();
-    playField[56]->moveTo(Point(7,0));
-    conPrintBoard();
-    printf("Move 1 done\n");
-    time_sleep(3);
+    endpoint.listen(9002); // listen on port 9002
+    endpoint.start_accept(); // start server
+    endpoint.run(); // run I/O service loop
 
-    playField[7]->printPieceInfo();
-    playField[7]->moveTo(Point(3,4));
-    conPrintBoard();
-    printf("Move 2 done\n");
-    time_sleep(3);
-
-    playField[35]->printPieceInfo();
-    playField[35]->moveTo(Point(6,7));
-    conPrintBoard();
-    printf("Move 3 done\n");
-    time_sleep(3);
-
-    playField[62]->printPieceInfo();
-    playField[62]->moveTo(Point(0,0));
-    conPrintBoard();
-    printf("Move 4 done\n");
-    time_sleep(3);
-}
-
-void Test3()
-{
-    for(int i = 0; i <= 63; i++)
-    {
-        playField[i] = new ChessPiece(i);
-    }
-    delete playField[48]; playField[48] = new cp::Pawn(Color::White, Point(0,6));
-    delete playField[25]; playField[25] = new cp::Pawn(Color::Black, Point(1,3));
-
-    playField[48]->printPieceInfo();
-    playField[48]->moveTo(Point(1,5));
-    conPrintBoard();
-    printf("Move 1 done\n");
-    time_sleep(2);
-
-    playField[48]->printPieceInfo();
-    playField[48]->moveTo(Point(0,4));
-    conPrintBoard();
-    printf("Move 2 done\n");
-    time_sleep(2);
-
-    playField[32]->printPieceInfo();
-    playField[25]->printPieceInfo();
-    playField[32]->moveTo(Point(1,3));
-    conPrintBoard();
-    printf("Move 3 done\n");
-    time_sleep(2);
+    return 0;
 }
 
 void resetBoard()
@@ -138,7 +114,8 @@ void resetBoard()
 
 void conPrintBoard()    //print Board to Console
 {
-    for(int i = 0; i < 64; i++) //print piece type
+    printf("******conPrintBoard******\n");
+    for(int i = 0; i < 64; i++)
         {
             if(i % 8 == 0)
                 printf("\n*");
@@ -146,65 +123,74 @@ void conPrintBoard()    //print Board to Console
             {
                 case PieceType::Rook:
                 {
-                    printf("T ");
+                    printf("T");
                     break;
                 }
                 case PieceType::Knight:
                 {
-                    printf("P ");
+                    printf("P");
                     break;
                 }
                 case PieceType::Bishop:
                 {
-                    printf("L ");
+                    printf("L");
                     break;
                 }
                 case PieceType::Pawn:
                 {
-                    printf("B ");
+                    printf("B");
                     break;
                 }
                 case PieceType::Queen:
                 {
-                    printf("Q ");
+                    printf("Q");
                     break;
                 }
                 case PieceType::King:
                 {
-                    printf("K ");
+                    printf("K");
                     break;
                 }
                 case PieceType::none:
+                {
+                    printf(" ");
+                    break;
+                }
+            }
+            switch(playField[i]->m_col)
+            {
+                case Color::Black:
+                {
+                    printf("B ");
+                    break;
+                }
+                case Color::White:
+                {
+                    printf("W ");
+                    break;
+                }
+                case Color::blank:
                 {
                     printf("  ");
                     break;
                 }
             }
         }
+    printf("*************************\n");    
     printf("\n");
+}
 
-    // for(int i = 0; i < 64; i++) // print color of piece
-    // {
-    //     if(i % 8 == 0)
-    //         printf("\n");
-    //     switch(playField[i]->m_col)
-    //     {
-    //         case Color::Black:
-    //         {
-    //             printf("B ");
-    //             break;
-    //         }
-    //         case Color::White:
-    //         {
-    //             printf("W ");
-    //             break;
-    //         }
-    //         case Color::blank:
-    //         {
-    //             printf("  ");
-    //             break;
-    //         }
-    //     }
-    // }
-    // printf("\n");
+void socketSendBoard(server endpoint)
+{
+
+}
+
+void socketSendMoves(server endpoint)
+{
+    
+}
+
+void movePiece(char* msgArray)
+{
+
 }

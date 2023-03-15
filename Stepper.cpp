@@ -13,7 +13,6 @@ Stepper::Stepper()
 
     gpioWrite(ENABLE, PI_HIGH);
 
-    //calibrate();      <<<<------ dont forget to activate
 }
 
 void Stepper::stepperTest()

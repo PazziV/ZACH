@@ -99,7 +99,7 @@ void ChessPiece::removeCapturedPiece()
 
     steppers->moveToPoint(m_pos);
     time_sleep(0.5);
-    gpioWrite(MAGNET_PIN, PI_HIGH);
+    gpioWrite(MAGNET_PIN, PI_LOW);  // inverted
 
     float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
     printf("diagonal: %.5f\n", diagonal);
@@ -114,7 +114,7 @@ void ChessPiece::removeCapturedPiece()
         int ydiff = abs(0 - m_pos.y);
         steppers->moveByMM((ydiff*fieldSize), Direction::Forwards);
 
-        gpioWrite(MAGNET_PIN, PI_LOW);
+        gpioWrite(MAGNET_PIN, PI_HIGH);
         time_sleep(1);
         steppers->moveByMM(45, Direction::Right);   //move back to closest field
         steppers->currPoint = Point(0,0);
@@ -131,7 +131,7 @@ void ChessPiece::removeCapturedPiece()
         time_sleep(0.5);
         steppers->moveByMM((ydiff*fieldSize), Direction::Backwards);
 
-        gpioWrite(MAGNET_PIN, PI_LOW);
+        gpioWrite(MAGNET_PIN, PI_HIGH);
         time_sleep(1);
         steppers->moveByMM(45, Direction::Left);
         steppers->currPoint = Point(7,7);
