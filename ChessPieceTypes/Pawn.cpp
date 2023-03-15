@@ -68,7 +68,7 @@ void Pawn::moveTo(Point aDesPoint)
             steppers->moveToPoint(m_pos);
             time_sleep(1);
 
-            gpioWrite(MAGNET_PIN, PI_HIGH);
+            gpioWrite(MAGNET_PIN, PI_LOW);
             if (this->m_pos.x == aDesPoint.x)
             {
                 int diff = aDesPoint.y - this->m_pos.y;
@@ -107,7 +107,7 @@ void Pawn::moveTo(Point aDesPoint)
                     }
                 }
             }
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioWrite(MAGNET_PIN, PI_HIGH);
 
             // move virtually
             int neu;

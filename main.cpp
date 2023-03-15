@@ -34,8 +34,8 @@ ChessPiece tempPiece;
 void resetBoard();
 void conPrintBoard();
 
-void socketSendBoard(server endpoint);
-void socketSendMoves(server endpoint, char* msgArray);
+void socketSendBoard(server* endpoint);
+void socketSendMoves(server* endpoint, char* msgArray);
 void movePiece(char* msgArray);
 
 int main()
@@ -67,10 +67,10 @@ int main()
                 steppers.calibrate();
                 break;
             case command::SYNC:
-                socketSendBoard(endpoint);
+                socketSendBoard(&endpoint);
                 break;
             case command::GETMOVES:
-                socketSendMoves(endpoint);
+                socketSendMoves(&endpoint, msgArray);
                 break;
             case command::MOVE:
                 movePiece(msgArray);
@@ -185,12 +185,12 @@ void socketSendBoard(server endpoint)
 
 }
 
-void socketSendMoves(server endpoint)
+void socketSendMoves(server endpoint, char* msgArray)
 {
-    
+    vector<Point> moves = playField[stoi((char*)msgArray[1])].getPossibleMoves();
 }
 
 void movePiece(char* msgArray)
 {
-
+    
 }

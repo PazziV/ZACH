@@ -57,7 +57,7 @@ void Bishop::moveTo(Point aDesPoint)
             int diff = aDesPoint.x - this->m_pos.x;
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
 
-            gpioWrite(MAGNET_PIN, PI_HIGH);
+            gpioWrite(MAGNET_PIN, PI_LOW);
             if(aDesPoint.x > this->m_pos.x)
             {
                 if(aDesPoint.y > this->m_pos.y)
@@ -72,7 +72,7 @@ void Bishop::moveTo(Point aDesPoint)
                 else
                     steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioWrite(MAGNET_PIN, PI_HIGH);
 
             // move virtually
             int neu;

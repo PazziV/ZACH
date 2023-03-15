@@ -54,7 +54,7 @@ void Rook::moveTo(Point aDesPoint)
             steppers->moveToPoint(m_pos);
             time_sleep(1);
             
-            gpioWrite(MAGNET_PIN, PI_HIGH);
+            gpioWrite(MAGNET_PIN, PI_LOW);
             if(aDesPoint.x == this->m_pos.x)
             {
                 int ydiff = aDesPoint.y - this->m_pos.y;
@@ -79,7 +79,7 @@ void Rook::moveTo(Point aDesPoint)
                     steppers->moveByMM(abs(xdiff)*fieldSize, Direction::Left);
                 }
             }  
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioWrite(MAGNET_PIN, PI_HIGH);
 
              // move virtually
             int neu;

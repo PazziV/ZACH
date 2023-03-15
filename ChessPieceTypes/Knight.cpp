@@ -55,7 +55,7 @@ void Knight::moveTo(Point aDesPoint)
             int xdiff = aDesPoint.x - this->m_pos.x;
             float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
-            gpioWrite(MAGNET_PIN, PI_HIGH);
+            gpioWrite(MAGNET_PIN, PI_LOW);
             // ****** Move diagonal to first corner ******
             if(xdiff > 0 && ydiff < 0)
             {
@@ -109,7 +109,7 @@ void Knight::moveTo(Point aDesPoint)
             {
                 steppers->moveByMM(diagonal/2, Direction::DiagonalLF);
             }
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioWrite(MAGNET_PIN, PI_HIGH);
 
             // move virtually
             int neu;
