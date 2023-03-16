@@ -49,13 +49,14 @@ void Knight::moveTo(Point aDesPoint)
                 occupant.removeCapturedPiece();
                 
             steppers->moveToPoint(m_pos);
-            time_sleep(1);
+            time_sleep(0.5);
 
             int ydiff = aDesPoint.y - this->m_pos.y;
             int xdiff = aDesPoint.x - this->m_pos.x;
             float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
             gpioWrite(MAGNET_PIN, PI_LOW);
+            time_sleep(1);
             // ****** Move diagonal to first corner ******
             if(xdiff > 0 && ydiff < 0)
             {
@@ -110,6 +111,7 @@ void Knight::moveTo(Point aDesPoint)
                 steppers->moveByMM(diagonal/2, Direction::DiagonalLF);
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
+            time_sleep(1);
 
             // move virtually
             int neu;

@@ -34,8 +34,8 @@ ChessPiece tempPiece;
 void resetBoard();
 void conPrintBoard();
 
-void socketSendBoard(server* endpoint);
-void socketSendMoves(server* endpoint, char* msgArray);
+string socketGetBoard();
+string socketGetMoves(char* msgArray);
 void movePiece(char* msgArray);
 
 int main()
@@ -46,6 +46,7 @@ int main()
     tempPiece.playField = &playField;
 
     resetBoard();
+    conPrintBoard();
     steppers.calibrate();
 
     //-----WebSocket Communication-----
@@ -61,16 +62,21 @@ int main()
 
         char* msgArray = strtok((char*)msg->get_payload().c_str(), " ");
 
-        switch (stoi((char*)msgArray[0])){
+        string message;
+        switch (stoi((char*)msgArray[0])){  // msgArray[0] ==> command
             case command::RESET:
                 resetBoard();
+                message = "0 " + socketGetBoard();
+                endpoint.send(hdl, message, msg->get_opcode());
                 steppers.calibrate();
                 break;
             case command::SYNC:
-                socketSendBoard(&endpoint);
+                message = "1 " + socketGetBoard();
+                endpoint.send(hdl, message, msg->get_opcode());
                 break;
             case command::GETMOVES:
-                socketSendMoves(&endpoint, msgArray);
+                message = "2 " + socketGetMoves(msgArray);
+                endpoint.send(hdl, message, msg->get_opcode());
                 break;
             case command::MOVE:
                 movePiece(msgArray);
@@ -176,21 +182,94 @@ void conPrintBoard()    //print Board to Console
                 }
             }
         }
-    printf("*************************\n");    
+    printf("\n*************************\n");    
     printf("\n");
 }
 
-void socketSendBoard(server endpoint)
+string socketGetBoard()
 {
-
+    string board;
+	for(int i = 0; i < 64; i++)
+    {
+        switch(playField[i]->m_col)
+        {
+            case Color::Black:
+            {
+                board += "0";
+                break;
+            }
+            case Color::White:
+            {
+                board += "1";
+                break;
+            }
+            case Color::blank:
+            {
+                board += "2";
+                break;
+            }
+        }
+		switch(playField[i]->m_type)
+        {
+            case PieceType::none:
+            {
+                board += "0 ";
+                break;
+            }
+		    case PieceType::Pawn:
+            {
+                board += "1 ";
+                break;
+            }
+			case PieceType::Bishop:
+            {
+                board += "2 ";
+                break;
+            }
+			case PieceType::Knight:
+            {
+                board += "3 ";
+                break;
+            }
+            case PieceType::Rook:
+            {
+                board += "4 ";
+                break;
+            }
+            case PieceType::Queen:
+            {
+                board += "5 ";
+                break;
+            }
+            case PieceType::King:
+            {
+                board += "6 ";
+                break;
+            }
+        }
+    }
+    return board;
 }
 
-void socketSendMoves(server endpoint, char* msgArray)
+string socketGetMoves(char* msgArray)   // msgArray[1] ==> selected Piece
 {
-    vector<Point> moves = playField[stoi((char*)msgArray[1])].getPossibleMoves();
+    vector<Point> moves = playField[stoi((char*)msgArray[1])]->getPossibleMoves();
+    string positions;
+    for(int i = 0; i < moves.size(); i++)
+    {
+        for(int a = 0; a < 64; a++)
+        {
+            if(playField[a]->m_pos == moves[i])
+                positions += " " + to_string(a);
+        }
+    }
+    return positions;
 }
 
-void movePiece(char* msgArray)
+void movePiece(char* msgArray)  // msgArray[1] ==> pos. selected piece; [2] ==> destination pos
 {
-    
+    Point des = playField[stoi((char*)msgArray[2])]->m_pos;
+    playField[stoi((char*)msgArray[1])]->printPieceInfo();
+    playField[stoi((char*)msgArray[1])]->moveTo(des);
+    conPrintBoard();
 }

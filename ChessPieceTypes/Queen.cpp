@@ -56,9 +56,10 @@ void Queen::moveTo(Point aDesPoint)
                 occupant.removeCapturedPiece();
 
             steppers->moveToPoint(m_pos);
-            time_sleep(1);
+            time_sleep(0.5);
             
             gpioWrite(MAGNET_PIN, PI_LOW);
+            time_sleep(1);
             if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
                 if(aDesPoint.x == this->m_pos.x)
@@ -108,6 +109,7 @@ void Queen::moveTo(Point aDesPoint)
                         steppers->moveByMM(diagonal, Direction::DiagonalLF);
                 }
             }
+            time_sleep(1);
             gpioWrite(MAGNET_PIN, PI_HIGH);
 
             // move virtually

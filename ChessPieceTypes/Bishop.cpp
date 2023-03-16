@@ -52,12 +52,13 @@ void Bishop::moveTo(Point aDesPoint)
                 occupant.removeCapturedPiece();
                 
             steppers->moveToPoint(m_pos);
-            time_sleep(1);
+            time_sleep(0.5);
             
             int diff = aDesPoint.x - this->m_pos.x;
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
 
             gpioWrite(MAGNET_PIN, PI_LOW);
+            time_sleep(1);
             if(aDesPoint.x > this->m_pos.x)
             {
                 if(aDesPoint.y > this->m_pos.y)
@@ -73,6 +74,7 @@ void Bishop::moveTo(Point aDesPoint)
                     steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
+            time_sleep(1);
 
             // move virtually
             int neu;

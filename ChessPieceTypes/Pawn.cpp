@@ -66,9 +66,10 @@ void Pawn::moveTo(Point aDesPoint)
                 occupant.removeCapturedPiece();
                 
             steppers->moveToPoint(m_pos);
-            time_sleep(1);
+            time_sleep(0.5);
 
             gpioWrite(MAGNET_PIN, PI_LOW);
+            time_sleep(1);
             if (this->m_pos.x == aDesPoint.x)
             {
                 int diff = aDesPoint.y - this->m_pos.y;
@@ -108,6 +109,7 @@ void Pawn::moveTo(Point aDesPoint)
                 }
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
+            time_sleep(1);
 
             // move virtually
             int neu;

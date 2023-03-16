@@ -86,23 +86,19 @@ void ChessPiece::GetPieceType(Point aPoint)
 
 void ChessPiece::moveTo(Point aDesPoint)
 {
-    //debug shit
-    printf("Entered moveTo in ChessPiece.cpp\n");
-    //----------
+    
 }
 
 void ChessPiece::removeCapturedPiece()
 {
-    printf("entered removeCapturedPiece\n");
+    printf("******removeCapturedPiece******\n");
     printPieceInfo();
-    time_sleep(2);
 
     steppers->moveToPoint(m_pos);
     time_sleep(0.5);
     gpioWrite(MAGNET_PIN, PI_LOW);  // inverted
 
     float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
-    printf("diagonal: %.5f\n", diagonal);
 
     if(m_col == Color::White)
     {
@@ -112,13 +108,11 @@ void ChessPiece::removeCapturedPiece()
         steppers->moveByMM((xdiff*fieldSize + 20), Direction::Left);    //move outside of playfield
         time_sleep(0.5);
         int ydiff = abs(0 - m_pos.y);
-        steppers->moveByMM((ydiff*fieldSize), Direction::Forwards);
+        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Forwards);
 
         gpioWrite(MAGNET_PIN, PI_HIGH);
         time_sleep(1);
-        steppers->moveByMM(45, Direction::Right);   //move back to closest field
-        steppers->currPoint = Point(0,0);
-        //oder falls error zu groß easy fix wäre einfach steppers->calibrate()
+        steppers->calibrate();
     }
     else if(m_col == Color::Black)
     {
@@ -129,55 +123,12 @@ void ChessPiece::removeCapturedPiece()
         time_sleep(0.5);
         int ydiff = 7 - m_pos.y;
         time_sleep(0.5);
-        steppers->moveByMM((ydiff*fieldSize), Direction::Backwards);
+        steppers->moveByMM((ydiff*fieldSize - fieldSize/2), Direction::Backwards);
 
         gpioWrite(MAGNET_PIN, PI_HIGH);
         time_sleep(1);
-        steppers->moveByMM(45, Direction::Left);
-        steppers->currPoint = Point(7,7);
+        steppers->calibrate();
     }    
-}
-
-void ChessPiece::conPrintBoard()    //print Board to Console
-{
-    for(int i = 0; i < 64; i++)
-        {
-            if(i % 8 == 0)
-                printf("\n");
-            switch((*playField)[i]->m_type)
-            {
-                case PieceType::Rook:
-                {
-                    printf("T ");
-                    break;
-                }
-                case PieceType::Knight:
-                {
-                    printf("P ");
-                    break;
-                }
-                case PieceType::Bishop:
-                {
-                    printf("L ");
-                    break;
-                }
-                case PieceType::Pawn:
-                {
-                    printf("B ");
-                    break;
-                }
-                case PieceType::Queen:
-                {
-                    printf("Q ");
-                    break;
-                }
-                case PieceType::King:
-                {
-                    printf("K ");
-                    break;
-                }
-            }
-        }
 }
 
 void ChessPiece::printPieceInfo()

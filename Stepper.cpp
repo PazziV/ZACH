@@ -74,7 +74,7 @@ void Stepper::moveByMM(float a_mm, Direction a_dir)
             gpioWrite(M2_DIR, PI_HIGH);
             break;
         }
-        case Direction::DiagonalLB
+        case Direction::DiagonalLB:
         {
             gpioWrite(M1_DIR, PI_HIGH);
             gpioWrite(M2_DIR, PI_LOW);
