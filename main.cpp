@@ -57,8 +57,8 @@ int main()
     //message handler for incoming messages
     endpoint.set_message_handler([&endpoint](websocketpp::connection_hdl hdl, server::message_ptr msg) {
         printf("[Received]: %s \n", msg->get_payload());
-
-        // endpoint.send(hdl, msg->get_payload(), msg->get_opcode());   // echo the message back
+        printf("well that works\n");
+        endpoint.send(hdl, msg->get_payload(), msg->get_opcode());   // echo the message back
 
         char* msgArray = strtok((char*)msg->get_payload().c_str(), " ");
 
