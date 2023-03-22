@@ -38,7 +38,10 @@ vector<Point> Pawn::getPossibleMoves()
                 if (occupant.m_type != PieceType::King)
                 {
                     if(desPoint.x == m_pos.x)
-                        possibleMoves.push_back(desPoint);
+                    {
+                        if(occupant.m_col == Color::blank)
+                            possibleMoves.push_back(desPoint);
+                    }
                     else   
                     {
                         if(occupant.m_col != Color::blank)  // only allow diagonal move if there is an enemy
