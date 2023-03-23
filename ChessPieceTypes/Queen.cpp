@@ -31,7 +31,123 @@ vector<Point> Queen::getPossibleMoves()
             ChessPiece occupant;
             occupant.GetPieceType(desPoint);
 
-            if(occupant.m_col != this->m_col)
+            bool blocked = false;
+            //-----check for blocked straight path-----
+            if (desPoint.x == m_pos.x && desPoint.y < m_pos.y)
+            {
+                for (int i = m_pos.y; i > desPoint.y; i--)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(m_pos.x, i));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+            else if (desPoint.x == m_pos.x && desPoint.y > m_pos.y)
+            {
+                for (int i = m_pos.y; i < desPoint.y; i++)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(m_pos.x, i));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+            else if (desPoint.y == m_pos.y && desPoint.x < m_pos.x)
+            {
+                for (int i = m_pos.x; i > desPoint.x; i--)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(i, m_pos.y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+            else if (desPoint.y == m_pos.y && desPoint.x > m_pos.x)
+            {
+                for (int i = m_pos.x; i < desPoint.x; i++)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(i, m_pos.y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                }
+            }
+            //-----check for blocked diagonal path-----
+            else if (desPoint.x < m_pos.x && desPoint.y < m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x < x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x--; y--;
+                }
+            }
+            else if (desPoint.x < m_pos.x && desPoint.y > m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x < x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x--; y++;
+                }
+            }
+            else if (desPoint.x > m_pos.x && desPoint.y < m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x > x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x++; y--;
+                }
+            }
+            else if (desPoint.x > m_pos.x && desPoint.y > m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x > x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x++; y++;
+                }
+            }
+
+            if(occupant.m_col != this->m_col && blocked == false)
             {
                 if(occupant.m_type != PieceType::King)
                     possibleMoves.push_back(desPoint);
@@ -59,7 +175,7 @@ void Queen::moveTo(Point aDesPoint)
             time_sleep(0.5);
             
             gpioWrite(MAGNET_PIN, PI_LOW);
-            time_sleep(1);
+            time_sleep(0.5);
             if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
                 if(aDesPoint.x == this->m_pos.x)
@@ -109,7 +225,7 @@ void Queen::moveTo(Point aDesPoint)
                         steppers->moveByMM(diagonal, Direction::DiagonalLF);
                 }
             }
-            time_sleep(1);
+            time_sleep(0.5);
             gpioWrite(MAGNET_PIN, PI_HIGH);
 
             // move virtually

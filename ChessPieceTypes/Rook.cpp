@@ -27,7 +27,62 @@ vector<Point> Rook::getPossibleMoves()
             ChessPiece occupant;
             occupant.GetPieceType(desPoint);
 
-            if(occupant.m_col != this->m_col)
+            //-----check for blocked path-----
+			bool blocked = false;
+			if (desPoint.x == m_pos.x && desPoint.y < m_pos.y)
+			{
+				for (int i = m_pos.y; i > desPoint.y; i--)
+				{
+					ChessPiece temp;
+					temp.GetPieceType(Point(m_pos.x, i));
+					if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+					{
+						blocked = true;
+						break;
+					}
+				}
+			}
+			else if (desPoint.x == m_pos.x && desPoint.y > m_pos.y)
+			{
+				for (int i = m_pos.y; i < desPoint.y; i++)
+				{
+					ChessPiece temp;
+					temp.GetPieceType(Point(m_pos.x, i));
+					if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+					{
+						blocked = true;
+						break;
+					}
+				}
+			}
+			else if (desPoint.y == m_pos.y && desPoint.x < m_pos.x)
+			{
+				for (int i = m_pos.x; i > desPoint.x; i--)
+				{
+					ChessPiece temp;
+					temp.GetPieceType(Point(i, m_pos.y));
+					if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+					{
+						blocked = true;
+						break;
+					}
+				}
+			}
+			else if (desPoint.y == m_pos.y && desPoint.x > m_pos.x)
+			{
+				for (int i = m_pos.x; i < desPoint.x; i++)
+				{
+					ChessPiece temp;
+					temp.GetPieceType(Point(i, m_pos.y));
+					if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+					{
+						blocked = true;
+						break;
+					}
+				}
+			}
+
+			if (occupant.m_col != this->m_col && blocked == false)
             {
                 if(occupant.m_type != PieceType::King)
                     possibleMoves.push_back(desPoint);
@@ -55,7 +110,7 @@ void Rook::moveTo(Point aDesPoint)
             time_sleep(0.5);
             
             gpioWrite(MAGNET_PIN, PI_LOW);
-            time_sleep(1);
+            time_sleep(0.5);
             if(aDesPoint.x == this->m_pos.x)
             {
                 int ydiff = aDesPoint.y - this->m_pos.y;
@@ -81,7 +136,7 @@ void Rook::moveTo(Point aDesPoint)
                 }
             }  
             gpioWrite(MAGNET_PIN, PI_HIGH);
-            time_sleep(1);
+            time_sleep(0.5);
 
              // move virtually
             int neu;

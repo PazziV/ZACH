@@ -52,7 +52,7 @@ void King::moveTo(Point aDesPoint)
             time_sleep(0.5);
             
             gpioWrite(MAGNET_PIN, PI_LOW);
-            time_sleep(1);
+            time_sleep(0.5);
             if((aDesPoint.x != this->m_pos.x && aDesPoint.y == this->m_pos.y) || (aDesPoint.x == this->m_pos.x && aDesPoint.y != this->m_pos.y)) // move straight
             {
                 if(aDesPoint.x == this->m_pos.x)
@@ -98,7 +98,7 @@ void King::moveTo(Point aDesPoint)
                 }
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
-            time_sleep(1);
+            time_sleep(0.5);
             
             // move virtually
             int neu;

@@ -27,7 +27,70 @@ vector<Point> Bishop::getPossibleMoves()
             ChessPiece occupant;
             occupant.GetPieceType(desPoint);
 
-            if(occupant.m_col != this->m_col)
+            //-----check for blocked path-----
+            bool blocked = false;
+            if (desPoint.x < m_pos.x && desPoint.y < m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x < x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x--; y--;
+                }
+            }
+            else if (desPoint.x < m_pos.x && desPoint.y > m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x < x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x--; y++;
+                }
+            }
+            else if (desPoint.x > m_pos.x && desPoint.y < m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x > x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x++; y--;
+                }
+            }
+            else if (desPoint.x > m_pos.x && desPoint.y > m_pos.y)
+            {
+                int x = m_pos.x, y = m_pos.y;
+                while (desPoint.x > x)
+                {
+                    ChessPiece temp;
+                    temp.GetPieceType(Point(x, y));
+                    if (temp.m_pos != m_pos && temp.m_col != Color::blank)
+                    {
+                        blocked = true;
+                        break;
+                    }
+                    x++; y++;
+                }
+            }
+
+            if(occupant.m_col != this->m_col && blocked == false)
             {
                 if(occupant.m_type != PieceType::King)
                     possibleMoves.push_back(desPoint);
@@ -58,7 +121,7 @@ void Bishop::moveTo(Point aDesPoint)
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
 
             gpioWrite(MAGNET_PIN, PI_LOW);
-            time_sleep(1);
+            time_sleep(0.5);
             if(aDesPoint.x > this->m_pos.x)
             {
                 if(aDesPoint.y > this->m_pos.y)
@@ -74,7 +137,7 @@ void Bishop::moveTo(Point aDesPoint)
                     steppers->moveByMM(diagonal, Direction::DiagonalLF);
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
-            time_sleep(1);
+            time_sleep(0.5);
 
             // move virtually
             int neu;

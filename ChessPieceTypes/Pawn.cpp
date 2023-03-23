@@ -33,7 +33,25 @@ vector<Point> Pawn::getPossibleMoves()
         {
             ChessPiece occupant;
             occupant.GetPieceType(desPoint);
-            if (occupant.m_col != m_col)
+            
+            //-----check for blocked path-----
+            bool blocked = false;
+            if (desPoint.x == m_pos.x && m_col == Color::White && m_pos.y == 6)
+            {
+                ChessPiece temp;
+                temp.GetPieceType(Point(m_pos.x, 5));
+                if (temp.m_col != Color::blank)
+                    blocked = true;
+            }
+            else if (desPoint.x == m_pos.x && m_col == Color::Black && m_pos.y == 1)
+            {
+                ChessPiece temp;
+                temp.GetPieceType(Point(m_pos.x, 2));
+                if (temp.m_col != Color::blank)
+                    blocked = true;
+            }
+
+            if (occupant.m_col != m_col && blocked == false)
             {
                 if (occupant.m_type != PieceType::King)
                 {
@@ -72,7 +90,7 @@ void Pawn::moveTo(Point aDesPoint)
             time_sleep(0.5);
 
             gpioWrite(MAGNET_PIN, PI_LOW);
-            time_sleep(1);
+            time_sleep(0.5);
             if (this->m_pos.x == aDesPoint.x)
             {
                 int diff = aDesPoint.y - this->m_pos.y;
@@ -112,7 +130,7 @@ void Pawn::moveTo(Point aDesPoint)
                 }
             }
             gpioWrite(MAGNET_PIN, PI_HIGH);
-            time_sleep(1);
+            time_sleep(0.5);
 
             // move virtually
             int neu;
