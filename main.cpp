@@ -1,3 +1,5 @@
+#define _CRT_SECURE_NO_WARNINGS   // REMOVE, only for VS
+
 #include <array>
 #include <iostream>
 #include <vector>
@@ -17,6 +19,10 @@
 using namespace std;
 
 typedef websocketpp::server<websocketpp::config::asio> server;
+using websocketpp::lib::placeholders::_1;
+
+websocketpp::open_handler openHandler;
+vector<websocketpp::connection_hdl> connectionList;
 
 enum command {
 	RESET = 0,
@@ -36,6 +42,7 @@ void conPrintBoard();
 string socketGetBoard();
 string socketGetMoves(vector<string> msgVec);
 void movePiece(vector<string> msgVec);
+void on_open(websocketpp::connection_hdl);
 
 vector<string> split(string input, char seperator);
 
@@ -63,25 +70,39 @@ int main()
 		vector<string> msgVec = split(msg->get_payload().c_str(), ' ');
 		string message;
 		switch (stoi(msgVec[0])) {  // msgVec[0] ==> command
-			case command::RESET:
-				resetBoard();
-				message = "0 " + socketGetBoard();
-				endpoint.send(hdl, message, msg->get_opcode());
-				steppers.calibrate();
-				break;
-			case command::SYNC:
-				message = "1 " + socketGetBoard();
-				endpoint.send(hdl, message, msg->get_opcode());
-				break;
-			case command::GETMOVES:
-				message = "2" + socketGetMoves(msgVec);
-				endpoint.send(hdl, message, msg->get_opcode());
-				break;
-			case command::MOVE:
-				movePiece(msgVec);
-				break;
+		case command::RESET:
+			resetBoard();
+			message = "0 " + socketGetBoard();
+			for (int i = 0; i < connectionList.size(); i++)
+			{
+				endpoint.send(connectionList[i], message, msg->get_opcode());
 			}
+			steppers.calibrate();
+			break;
+		case command::SYNC:
+			message = "1 " + socketGetBoard();
+			for (int i = 0; i < connectionList.size(); i++)
+			{
+				endpoint.send(connectionList[i], message, msg->get_opcode());
+			}
+			break;
+		case command::GETMOVES:
+			message = "2" + socketGetMoves(msgVec);
+			endpoint.send(hdl, message, msg->get_opcode());
+			break;
+		case command::MOVE:
+			movePiece(msgVec);
+			message = "1 " + socketGetBoard();
+			for (int i = 0; i < connectionList.size(); i++)
+			{
+				endpoint.send(connectionList[i], message, msg->get_opcode());
+			}
+			break;
+		}
 		});
+
+	openHandler = on_open;
+	endpoint.set_open_handler(openHandler);
 
 	endpoint.listen(9002); // listen on port 9002
 	endpoint.start_accept(); // start server
@@ -90,99 +111,104 @@ int main()
 	return 0;
 }
 
+void on_open(websocketpp::connection_hdl hdl)
+{
+	connectionList.push_back(hdl);
+}
+
 void resetBoard()
 {
-    for(int a = 0; a < 64; a++) // delete every piece
-        delete playField[a];
+	for (int a = 0; a < 64; a++) // delete every piece
+		delete playField[a];
 
-    // set pieces to starting positions
-    playField[0] = new cp::Rook(Color::Black, Point(0,0)); playField[7] = new cp::Rook(Color::Black, Point(7,0));
-    playField[1] = new cp::Knight(Color::Black, Point(1,0)); playField[6] = new cp::Knight(Color::Black, Point(6,0));
-    playField[2] = new cp::Bishop(Color::Black, Point(2,0)); playField[5] = new cp::Bishop(Color::Black, Point(5,0));
-    playField[3] = new cp::Queen(Color::Black, Point(3,0));
-    playField[4] = new cp::King(Color::Black, Point(4,0));
-    for(int i = 8; i <= 15; i++)
-        playField[i] = new cp::Pawn(Color::Black, Point((i-8),1));
+	// set pieces to starting positions
+	playField[0] = new cp::Rook(Color::Black, Point(0, 0)); playField[7] = new cp::Rook(Color::Black, Point(7, 0));
+	playField[1] = new cp::Knight(Color::Black, Point(1, 0)); playField[6] = new cp::Knight(Color::Black, Point(6, 0));
+	playField[2] = new cp::Bishop(Color::Black, Point(2, 0)); playField[5] = new cp::Bishop(Color::Black, Point(5, 0));
+	playField[3] = new cp::Queen(Color::Black, Point(3, 0));
+	playField[4] = new cp::King(Color::Black, Point(4, 0));
+	for (int i = 8; i <= 15; i++)
+		playField[i] = new cp::Pawn(Color::Black, Point((i - 8), 1));
 
-    for(int i = 16; i <= 55; i++) 
-    {
-        playField[i] = new ChessPiece(i);   // empty fields
-    }
+	for (int i = 16; i <= 55; i++)
+	{
+		playField[i] = new ChessPiece(i);   // empty fields
+	}
 
-    playField[56] = new cp::Rook(Color::White, Point(0,7)); playField[63] = new cp::Rook(Color::White, Point(7,7));
-    playField[57] = new cp::Knight(Color::White, Point(1,7)); playField[62] = new cp::Knight(Color::White, Point(6,7));
-    playField[58] = new cp::Bishop(Color::White, Point(2,7)); playField[61] = new cp::Bishop(Color::White, Point(5,7));
-    playField[59] = new cp::Queen(Color::White, Point(3,7)); playField[60] = new cp::King(Color::White, Point(4,7));
-    for(int i = 48; i <= 55; i++)
-        playField[i] = new cp::Pawn(Color::White, Point((i-48),6));
+	playField[56] = new cp::Rook(Color::White, Point(0, 7)); playField[63] = new cp::Rook(Color::White, Point(7, 7));
+	playField[57] = new cp::Knight(Color::White, Point(1, 7)); playField[62] = new cp::Knight(Color::White, Point(6, 7));
+	playField[58] = new cp::Bishop(Color::White, Point(2, 7)); playField[61] = new cp::Bishop(Color::White, Point(5, 7));
+	playField[59] = new cp::Queen(Color::White, Point(3, 7)); playField[60] = new cp::King(Color::White, Point(4, 7));
+	for (int i = 48; i <= 55; i++)
+		playField[i] = new cp::Pawn(Color::White, Point((i - 48), 6));
 }
 
 void conPrintBoard()    //print Board to Console
 {
-    printf("******conPrintBoard******\n");
-    for(int i = 0; i < 64; i++)
-        {
-            if(i % 8 == 0)
-                printf("\n*");
-            switch(playField[i]->m_type)
-            {
-                case PieceType::Rook:
-                {
-                    printf("T");
-                    break;
-                }
-                case PieceType::Knight:
-                {
-                    printf("P");
-                    break;
-                }
-                case PieceType::Bishop:
-                {
-                    printf("L");
-                    break;
-                }
-                case PieceType::Pawn:
-                {
-                    printf("B");
-                    break;
-                }
-                case PieceType::Queen:
-                {
-                    printf("Q");
-                    break;
-                }
-                case PieceType::King:
-                {
-                    printf("K");
-                    break;
-                }
-                case PieceType::none:
-                {
-                    printf(" ");
-                    break;
-                }
-            }
-            switch(playField[i]->m_col)
-            {
-                case Color::Black:
-                {
-                    printf("B ");
-                    break;
-                }
-                case Color::White:
-                {
-                    printf("W ");
-                    break;
-                }
-                case Color::blank:
-                {
-                    printf("  ");
-                    break;
-                }
-            }
-        }
-    printf("\n*************************\n");    
-    printf("\n");
+	printf("******conPrintBoard******\n");
+	for (int i = 0; i < 64; i++)
+	{
+		if (i % 8 == 0)
+			printf("\n*");
+		switch (playField[i]->m_type)
+		{
+		case PieceType::Rook:
+		{
+			printf("T");
+			break;
+		}
+		case PieceType::Knight:
+		{
+			printf("P");
+			break;
+		}
+		case PieceType::Bishop:
+		{
+			printf("L");
+			break;
+		}
+		case PieceType::Pawn:
+		{
+			printf("B");
+			break;
+		}
+		case PieceType::Queen:
+		{
+			printf("Q");
+			break;
+		}
+		case PieceType::King:
+		{
+			printf("K");
+			break;
+		}
+		case PieceType::none:
+		{
+			printf(" ");
+			break;
+		}
+		}
+		switch (playField[i]->m_col)
+		{
+		case Color::Black:
+		{
+			printf("B ");
+			break;
+		}
+		case Color::White:
+		{
+			printf("W ");
+			break;
+		}
+		case Color::blank:
+		{
+			printf("  ");
+			break;
+		}
+		}
+	}
+	printf("\n*************************\n");
+	printf("\n");
 }
 
 string socketGetBoard()
