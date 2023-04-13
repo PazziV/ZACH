@@ -1,5 +1,3 @@
-#define _CRT_SECURE_NO_WARNINGS   // REMOVE, only for VS
-
 #include <array>
 #include <iostream>
 #include <vector>
@@ -22,13 +20,15 @@ typedef websocketpp::server<websocketpp::config::asio> server;
 using websocketpp::lib::placeholders::_1;
 
 websocketpp::open_handler openHandler;
+websocketpp::close_handler closeHandler;
 vector<websocketpp::connection_hdl> connectionList;
 
 enum command {
 	RESET = 0,
 	SYNC,
 	GETMOVES,
-	MOVE
+	MOVE,
+	CALIBRATE
 };
 
 array<ChessPiece*, 64> playField;
@@ -43,6 +43,7 @@ string socketGetBoard();
 string socketGetMoves(vector<string> msgVec);
 void movePiece(vector<string> msgVec);
 void on_open(websocketpp::connection_hdl);
+void on_close(websocketpp::connection_hdl);
 
 vector<string> split(string input, char seperator);
 
@@ -55,6 +56,7 @@ int main()
 
 	resetBoard();
 	conPrintBoard();
+	gpioWrite(21, PI_HIGH);
 	steppers.calibrate();
 
 	//-----WebSocket Communication-----
@@ -98,11 +100,16 @@ int main()
 				endpoint.send(connectionList[i], message, msg->get_opcode());
 			}
 			break;
+		case command::CALIBRATE:
+			steppers.calibrate();
+			break;
 		}
-		});
+	});
 
 	openHandler = on_open;
 	endpoint.set_open_handler(openHandler);
+	closeHandler = on_close;
+	endpoint.set_close_handler(closeHandler);
 
 	endpoint.listen(9002); // listen on port 9002
 	endpoint.start_accept(); // start server
@@ -114,6 +121,15 @@ int main()
 void on_open(websocketpp::connection_hdl hdl)
 {
 	connectionList.push_back(hdl);
+}
+
+void on_close(websocketpp::connection_hdl hdl)
+{
+	for(int i = 0; i < connectionList.size(); i++)
+	{
+		if((shared_ptr<void>)connectionList[i] == (shared_ptr<void>)hdl)
+			connectionList.erase(next(connectionList.begin(), i));
+	}
 }
 
 void resetBoard()

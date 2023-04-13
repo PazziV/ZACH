@@ -15,8 +15,8 @@ using namespace std;
 
 #define fieldSize 50 //mm
 
-#define X_DISTANCE_TO_A1 43 //Distance in mm from left X-Axis limit switch to field A1
-#define Y_DISTANCE_TO_A1 5 //Distance in mm from lower-left Y-Axis limit switch to field A1
+#define X_DISTANCE_TO_A1 48 //Distance in mm from left X-Axis limit switch to field A1
+#define Y_DISTANCE_TO_A1 3 //Distance in mm from lower-left Y-Axis limit switch to field A1
 
 #define M1_STEP 5     //Stepper 1 Step Pin
 #define M1_DIR 6     //Stepper 1 Direction Pin

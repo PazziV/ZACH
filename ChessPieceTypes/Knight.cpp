@@ -88,7 +88,7 @@ void Knight::moveTo(Point aDesPoint)
             {
                 steppers->moveByMM(fieldSize, Direction::Forwards);
             }
-            else if(abs(xdiff) < abs(ydiff) && ydiff < 0)
+            else if(abs(xdiff) < abs(ydiff) && ydiff > 0)
             {
                 steppers->moveByMM(fieldSize, Direction::Backwards);
             }

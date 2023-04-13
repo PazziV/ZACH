@@ -100,7 +100,7 @@ void ChessPiece::removeCapturedPiece()
 
     float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
 
-    if(m_col == Color::White)
+    if(m_col == Color::White && m_pos.y != 0 || m_col == Color::Black && m_pos.y == 7)
     {
         steppers->moveByMM(diagonal, Direction::DiagonalLF);    //move to field Corner
         time_sleep(0.5);
@@ -114,7 +114,7 @@ void ChessPiece::removeCapturedPiece()
         time_sleep(1);
         steppers->calibrate();
     }
-    else if(m_col == Color::Black)
+    else if(m_col == Color::Black && m_pos.y != 7 || m_col == Color::White && m_pos.y == 0)
     {
         steppers->moveByMM(diagonal, Direction::DiagonalRB);
         time_sleep(0.5);

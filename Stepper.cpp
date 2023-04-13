@@ -11,8 +11,14 @@ Stepper::Stepper()
     gpioSetMode(M2_STEP, PI_OUTPUT);
     gpioSetMode(M2_DIR, PI_OUTPUT);
 
+    gpioSetMode(ENABLE, PI_OUTPUT);
     gpioWrite(ENABLE, PI_HIGH);
 
+    gpioSetMode(MAGNET_PIN, PI_OUTPUT);
+    gpioSetMode(MAGNET_PIN, PI_HIGH); // inverted
+
+    gpioSetMode(LIMIT_X_LEFT, PI_INPUT);
+    gpioSetMode(LIMIT_Y_LOWER, PI_INPUT);
 }
 
 void Stepper::stepperTest()
