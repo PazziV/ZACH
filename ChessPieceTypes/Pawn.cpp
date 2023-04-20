@@ -89,7 +89,7 @@ void Pawn::moveTo(Point aDesPoint)
             steppers->moveToPoint(m_pos);
             time_sleep(0.5);
 
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioPWM(MAGNET_PIN, PWM_VAL);
             time_sleep(0.5);
             if (this->m_pos.x == aDesPoint.x)
             {
