@@ -120,7 +120,7 @@ void Bishop::moveTo(Point aDesPoint)
             int diff = aDesPoint.x - this->m_pos.x;
             float diagonal = abs(diff)*(sqrt(2*(fieldSize*fieldSize)));
 
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioPWM(MAGNET_PIN, PWM_VAL);
             time_sleep(0.5);
             if(aDesPoint.x > this->m_pos.x)
             {
