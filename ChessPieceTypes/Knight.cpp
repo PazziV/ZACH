@@ -55,7 +55,7 @@ void Knight::moveTo(Point aDesPoint)
             int xdiff = aDesPoint.x - this->m_pos.x;
             float diagonal = (sqrt(2*(fieldSize*fieldSize)));
 
-            gpioWrite(MAGNET_PIN, PI_LOW);
+            gpioPWM(MAGNET_PIN, PWM_VAL);
             time_sleep(0.5);
             // ****** Move diagonal to first corner ******
             if(xdiff > 0 && ydiff < 0)
