@@ -29,6 +29,7 @@ using namespace std;
 #define LIMIT_Y_LOWER 20  //lower Limit Switch Y-Axis (Numbers)
 
 #define MAGNET_PIN 21
+#define PWM_VAL 75
 
 enum Direction{
     Backwards = 0,
