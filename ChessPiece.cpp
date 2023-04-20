@@ -96,7 +96,7 @@ void ChessPiece::removeCapturedPiece()
 
     steppers->moveToPoint(m_pos);
     time_sleep(0.5);
-    gpioWrite(MAGNET_PIN, PI_LOW);  // inverted
+    gpioPWM(MAGNET_PIN, PWM_VAL);  // inverted
 
     float diagonal = (sqrt(2*(fieldSize*fieldSize)))/2;
 
